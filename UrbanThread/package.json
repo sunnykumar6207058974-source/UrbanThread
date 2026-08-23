@@ -1,0 +1,26 @@
+{
+  "name": "urbanthread-workspace",
+  "version": "1.0.0",
+  "description": "UrbanThread Modern E-Commerce Web Application (Frontend & Backend)",
+  "scripts": {
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "start": "concurrently -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "build": "npm run build --prefix frontend",
+    "build:frontend": "npm run build --prefix frontend",
+    "seed:backend": "npm run seed --prefix backend",
+    "start:backend": "npm run start --prefix backend"
+  },
+  "keywords": [
+    "ecommerce",
+    "react",
+    "express",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}

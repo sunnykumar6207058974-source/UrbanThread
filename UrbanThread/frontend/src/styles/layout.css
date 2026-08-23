@@ -1,0 +1,31 @@
+/* ==========================================================================
+   URBAN THREAD - Premium Modern Luxury E-Commerce Layout
+   ========================================================================== */
+
+/* Main Layout */
+.app-main-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-main);
+  position: relative;
+}
+
+/* Subtle luxury glow aura across main content */
+.app-main-layout::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 600px;
+  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.06) 0%, rgba(255, 63, 108, 0.03) 40%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+

@@ -1,0 +1,15 @@
+{
+  "name": "ecommerce-root",
+  "version": "1.0.0",
+  "description": "Root workspace proxy for UrbanThread",
+  "scripts": {
+    "dev": "npm run dev --prefix UrbanThread",
+    "start": "npm run start --prefix UrbanThread",
+    "build": "npm run build --prefix UrbanThread",
+    "dev:frontend": "npm run dev:frontend --prefix UrbanThread",
+    "dev:backend": "npm run dev:backend --prefix UrbanThread"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

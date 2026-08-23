@@ -1,0 +1,72 @@
+/* ==========================================================================
+   11. DARK MODE THEME STYLES
+   ========================================================================== */
+.app-main-layout.dark-theme {
+  background-color: var(--dark-obsidian);
+  color: #f1f5f9;
+}
+
+.dark-theme .site-header,
+.dark-theme .main-header,
+.dark-theme .category-card,
+.dark-theme .product-card,
+.dark-theme .bestseller-card,
+.dark-theme .review-card,
+.dark-theme .search-dropdown,
+.dark-theme .mega-dropdown-panel,
+.dark-theme .profile-dropdown-menu,
+.dark-theme .product-modal-card,
+.dark-theme .cart-drawer-panel,
+.dark-theme .checkout-modal-card,
+.dark-theme .checkout-modal-panel,
+.dark-theme .checkout-block,
+.dark-theme .checkout-summary-box,
+.dark-theme .order-receipt-card,
+.dark-theme .address-card,
+.dark-theme .payment-card,
+.dark-theme .smart-filter-panel,
+.dark-theme .account-content-pane,
+.dark-theme .info-card,
+.dark-theme .order-history-card,
+.dark-theme .wishlist-row-card,
+.dark-theme .address-box,
+.dark-theme .return-card,
+.dark-theme .notification-card {
+  background: var(--dark-card) !important;
+  color: #f8fafc !important;
+  border-color: var(--border-dark) !important;
+}
+
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme h4,
+.dark-theme .section-title,
+.dark-theme .card-title,
+.dark-theme .product-title,
+.dark-theme .price-current,
+.dark-theme .price-now,
+.dark-theme .nav-link,
+.dark-theme .brand-name,
+.dark-theme .action-btn,
+.dark-theme .action-label {
+  color: #ffffff !important;
+}
+
+.dark-theme .action-btn svg {
+  stroke: #ffffff;
+}
+
+.dark-theme .action-btn:hover,
+.dark-theme .action-btn:hover .action-label {
+  color: var(--primary-brand) !important;
+}
+
+.dark-theme .action-btn:hover svg {
+  stroke: var(--primary-brand) !important;
+}
+
+.dark-theme .badge-count {
+  border-color: #11131c !important;
+}
+

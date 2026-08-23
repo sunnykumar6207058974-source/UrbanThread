@@ -1,0 +1,179 @@
+/* ==========================================================================
+   3. BUTTONS & SHARED UI ELEMENTS
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: var(--transition-normal);
+  text-decoration: none;
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 1.05rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--primary-brand);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(255, 63, 108, 0.35);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 63, 108, 0.45);
+}
+
+.btn-primary-light {
+  background: rgba(255, 63, 108, 0.1);
+  color: var(--primary-brand);
+}
+
+.btn-primary-light:hover {
+  background: var(--primary-brand);
+  color: #ffffff;
+}
+
+.btn-outline-light {
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  color: #ffffff;
+}
+
+.btn-outline-light:hover {
+  background: #ffffff;
+  color: var(--dark-obsidian);
+}
+
+.btn-dark {
+  background: var(--dark-obsidian);
+  color: #ffffff;
+}
+
+.btn-dark:hover {
+  background: #252836;
+}
+
+.btn-outline {
+  border: 1.5px solid var(--border-light);
+  color: var(--text-main);
+}
+
+.btn-outline:hover {
+  border-color: var(--text-main);
+}
+
+/* Cancel & Danger Outline Buttons */
+.btn-outline-cancel {
+  background: #f1f5f9;
+  border: 1.5px solid #cbd5e1;
+  color: #334155 !important;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-outline-cancel:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  color: #0f172a !important;
+}
+
+.btn-outline-danger {
+  background: rgba(255, 71, 87, 0.08);
+  border: 1.5px solid rgba(255, 71, 87, 0.3);
+  color: #ff4757 !important;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-outline-danger:hover {
+  background: #ff4757;
+  color: #ffffff !important;
+  border-color: #ff4757;
+}
+
+.add-address-btn.cancel-mode {
+  color: #ff4757 !important;
+}
+
+.add-address-btn.cancel-mode:hover {
+  color: #d63031 !important;
+}
+
+/* Sections Shared Headers (Classy Luxury Edition) */
+.section-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 72px 32px;
+}
+
+.section-header {
+  margin-bottom: 44px;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--luxury-gold-dark);
+  background: linear-gradient(135deg, rgba(197, 160, 89, 0.12) 0%, rgba(255, 63, 108, 0.06) 100%);
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 12px;
+}
+
+.center-tag {
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-title {
+  font-family: var(--font-family-heading);
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.section-description {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-top: 8px;
+  max-width: 650px;
+  line-height: 1.6;
+}
+
+.text-center .section-description {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
