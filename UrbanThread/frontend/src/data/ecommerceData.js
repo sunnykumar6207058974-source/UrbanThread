@@ -106,6 +106,30 @@ export const CATEGORIES = [
     itemCount: "9,400+ Items",
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop",
     tag: "Up to 70% OFF"
+  },
+  {
+    id: "beauty",
+    targetCategory: "Beauty",
+    name: "Beauty & Skincare",
+    itemCount: "3,800+ Items",
+    image: "https://images.unsplash.com/photo-1608248597261-833258657b45?q=80&w=400&auto=format&fit=crop",
+    tag: "Up to 49% OFF"
+  },
+  {
+    id: "accessories",
+    targetCategory: "Accessories",
+    name: "Bags & Accessories",
+    itemCount: "6,200+ Items",
+    image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=400&auto=format&fit=crop",
+    tag: "Up to 53% OFF"
+  },
+  {
+    id: "home",
+    targetCategory: "Home",
+    name: "Home & Living",
+    itemCount: "4,100+ Items",
+    image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=400&auto=format&fit=crop",
+    tag: "Up to 52% OFF"
   }
 ];
 
@@ -1240,27 +1264,7 @@ export const ALL_PRODUCTS = [
     isTrending: true,
     isNew: true
   },
-  {
-    id: "prod-6",
-    name: "Slim-Fit Tailored Linen Blazer",
-    category: "Men",
-    brand: "SAVILE ROW",
-    price: 135,
-    originalPrice: 280,
-    discount: "51% OFF",
-    rating: 4.9,
-    reviewsCount: 380,
-    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600&auto=format&fit=crop",
-    images: [
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=800&auto=format&fit=crop"
-    ],
-    sizes: ["38R", "40R", "42R", "44R"],
-    colors: ["#d4c4b7", "#1e293b", "#475569"],
-    description: "Breathable European flax linen blazer crafted for modern smart-casual tailoring with structured notch lapels.",
-    isBestSeller: true,
-    isTrending: true
-  },
+
   {
     id: "prod-7",
     name: "Apple Watch Series 9 GPS + Cellular 45mm",

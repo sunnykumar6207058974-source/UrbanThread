@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useEcommerce } from '../context/EcommerceContext';
-import { Heart, Eye, ShoppingCart, Star, ArrowUpDown, SlidersHorizontal, RotateCcw } from 'lucide-react';
+import { Heart, Eye, ShoppingCart, Star, ArrowUpDown, SlidersHorizontal, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ProductSkeleton } from './ProductSkeleton';
 
 export const FeaturedProducts = () => {
@@ -23,9 +23,12 @@ export const FeaturedProducts = () => {
   const [hoveredProduct, setHoveredProduct] = useState(null);
   const [showFilterDrawer, setShowFilterDrawer] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const PRODUCTS_PER_PAGE = 12;
 
   useEffect(() => {
     setIsLoading(true);
+    setCurrentPage(1); // Reset to page 1 whenever filters change
     const timer = setTimeout(() => setIsLoading(false), 450);
     return () => clearTimeout(timer);
   }, [selectedCategory, activeTab, selectedBrand, maxPrice, minRating, sortBy]);
@@ -42,7 +45,8 @@ export const FeaturedProducts = () => {
     'Men',
     'Electronics',
     'Beauty',
-    'Accessories'
+    'Accessories',
+    'Home'
   ];
   const tabsList = ['All', 'Trending', 'New Arrivals', 'Best Sellers'];
   
@@ -113,6 +117,19 @@ export const FeaturedProducts = () => {
     setMaxPrice(3000);
     setMinRating(0);
     setSortBy('default');
+    setCurrentPage(1);
+  };
+
+  // Pagination
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
+  const pagedProducts = filteredProducts.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    document.getElementById('products')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -242,7 +259,7 @@ export const FeaturedProducts = () => {
         </div>
       ) : (
         <div className="products-grid">
-          {filteredProducts.map((product) => {
+          {pagedProducts.map((product) => {
             const isWishlisted = wishlist.includes(product.id);
             const isHovered = hoveredProduct === product.id;
             const secondImg = product.images && product.images.length > 1 ? product.images[1] : null;
@@ -330,6 +347,46 @@ export const FeaturedProducts = () => {
             );
           })}
         </div>
+      )}
+
+      {/* Pagination Controls */}
+      {!isLoading && totalPages > 1 && (
+        <div className="pagination-bar">
+          <button
+            className="pagination-btn"
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            <ChevronLeft size={18} /> Previous
+          </button>
+
+          <div className="pagination-pages">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`page-num-btn ${currentPage === page ? 'active' : ''}`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+
+          <button
+            className="pagination-btn"
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            Next <ChevronRight size={18} />
+          </button>
+        </div>
+      )}
+
+      {/* Results count */}
+      {!isLoading && filteredProducts.length > 0 && (
+        <p className="pagination-info">
+          Showing {(currentPage - 1) * PRODUCTS_PER_PAGE + 1}–{Math.min(currentPage * PRODUCTS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} products
+        </p>
       )}
     </section>
   );

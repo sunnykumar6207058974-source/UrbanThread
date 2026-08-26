@@ -185,6 +185,37 @@
   color: #34d399 !important;
 }
 
+/* 1b. Pagination Dark Mode */
+.dark-theme .pagination-btn {
+  background: var(--bg-card) !important;
+  border-color: var(--border-dark) !important;
+  color: #ffffff !important;
+}
+
+.dark-theme .pagination-btn:hover:not(:disabled) {
+  background: var(--primary-brand) !important;
+  border-color: var(--primary-brand) !important;
+  color: #ffffff !important;
+}
+
+.dark-theme .page-num-btn {
+  background: var(--bg-card) !important;
+  border-color: var(--border-dark) !important;
+  color: #ffffff !important;
+}
+
+.dark-theme .page-num-btn:hover {
+  background: var(--bg-card-hover) !important;
+  border-color: var(--primary-brand) !important;
+  color: var(--primary-brand) !important;
+}
+
+.dark-theme .page-num-btn.active {
+  background: var(--primary-brand) !important;
+  border-color: var(--primary-brand) !important;
+  color: #ffffff !important;
+}
+
 /* 2. Flash Deals of the Day */
 .dark-theme .flash-sale-section {
   background: transparent !important;
