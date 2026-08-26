@@ -94,9 +94,9 @@ export const CATEGORIES = [
   {
     id: "men",
     targetCategory: "Men",
-    name: "Men's Fashion",
+    name: "Men's Fashion & Blazers",
     itemCount: "18,500+ Items",
-    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=400&auto=format&fit=crop",
+    image: "/blazers/navy-wool.jpg",
     tag: "Min. 50% OFF"
   },
   {
@@ -642,6 +642,121 @@ export const ALL_PRODUCTS = [
     sizes: ["XS", "S", "M", "L", "XL"],
     colors: ["#8b0000", "#c0392b", "#d4af37"],
     description: "Vibrant crimson festive organza suit adorned with heavy tilla embroidery, cutwork sleeves, embroidered wide-leg trousers, and a lightweight organza dupatta with four-sided embroidered borders.",
+    isTrending: true,
+    isNew: true
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // 🤵 5 LUXURY MEN'S BLAZERS (MEN SECTION)
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "blazer-1",
+    name: "Savile Row Italian Wool Slim-Fit Navy Blazer",
+    category: "Men",
+    brand: "SAVILE ROW",
+    price: 165,
+    originalPrice: 330,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 780,
+    stockLeft: 6,
+    totalStock: 30,
+    image: "/blazers/navy-wool.jpg",
+    images: [
+      "/blazers/navy-wool.jpg"
+    ],
+    sizes: ["38R", "40R", "42R", "44R", "46R"],
+    colors: ["#1b2a47", "#0d1b2a", "#334155"],
+    description: "Tailored from pure Super 130s Italian wool, featuring elegant notched lapels, dual rear vents, horn buttons, and breathable half-canvas construction.",
+    isBestSeller: true,
+    isTrending: true,
+    isNew: true
+  },
+  {
+    id: "blazer-2",
+    name: "Royal Velvet Peak Lapel Tuxedo Blazer - Midnight Black",
+    category: "Men",
+    brand: "TOM FORD CURATED",
+    price: 195,
+    originalPrice: 390,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 640,
+    stockLeft: 4,
+    totalStock: 25,
+    image: "/blazers/black-velvet-tuxedo.jpg",
+    images: [
+      "/blazers/black-velvet-tuxedo.jpg"
+    ],
+    sizes: ["38R", "40R", "42R", "44R"],
+    colors: ["#111111", "#1e272e", "#2d3436"],
+    description: "Opulent midnight black cotton-velvet evening jacket finished with silk satin peak lapels, single jetted pockets, and silk covered buttons for black-tie galas.",
+    isBestSeller: true,
+    isTrending: true
+  },
+  {
+    id: "blazer-3",
+    name: "Double-Breasted Houndstooth Tweed Blazer - Charcoal & Camel",
+    category: "Men",
+    brand: "ARMANI HERITAGE",
+    price: 175,
+    originalPrice: 350,
+    discount: "50% OFF",
+    rating: 4.8,
+    reviewsCount: 510,
+    stockLeft: 8,
+    totalStock: 35,
+    image: "/blazers/houndstooth-tweed.jpg",
+    images: [
+      "/blazers/houndstooth-tweed.jpg"
+    ],
+    sizes: ["38R", "40R", "42R", "44R", "46R"],
+    colors: ["#3d3d3d", "#8c7b75", "#2f3542"],
+    description: "Heritage British tweed wool blend in a micro-houndstooth check, cut in a modern double-breasted 6x2 silhouette with wide peaked lapels and flap pockets.",
+    isTrending: true,
+    isNew: true
+  },
+  {
+    id: "blazer-4",
+    name: "European Linen Tailored Summer Blazer - Sand Beige",
+    category: "Men",
+    brand: "BRUNELLO CUCINELLI",
+    price: 145,
+    originalPrice: 290,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 920,
+    stockLeft: 10,
+    totalStock: 40,
+    image: "/blazers/sand-linen.jpg",
+    images: [
+      "/blazers/sand-linen.jpg"
+    ],
+    sizes: ["38R", "40R", "42R", "44R"],
+    colors: ["#e0d5c1", "#f5f0e6", "#c7b198"],
+    description: "Unstructured soft-tailored blazer woven from breathable Normandy flax linen with natural horn buttons, patch pockets, and unlined interior for effortless Mediterranean summer elegance.",
+    isBestSeller: true,
+    isNew: true
+  },
+  {
+    id: "blazer-5",
+    name: "Burgundy Jacquard Dinner Jacket Blazer with Shawl Lapel",
+    category: "Men",
+    brand: "RALPH LAUREN PURPLE LABEL",
+    price: 185,
+    originalPrice: 370,
+    discount: "50% OFF",
+    rating: 4.8,
+    reviewsCount: 430,
+    stockLeft: 5,
+    totalStock: 25,
+    image: "/blazers/burgundy-jacquard.jpg",
+    images: [
+      "/blazers/burgundy-jacquard.jpg"
+    ],
+    sizes: ["38R", "40R", "42R", "44R"],
+    colors: ["#671026", "#800020", "#111111"],
+    description: "Dramatic floral silk jacquard dinner jacket in deep vintage burgundy wine with contrasting black silk satin shawl collar, tailored for statement evening wear.",
     isTrending: true,
     isNew: true
   },

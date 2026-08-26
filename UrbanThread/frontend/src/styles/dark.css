@@ -1766,6 +1766,20 @@
   padding: 60px 32px;
 }
 
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.site-footer .brand-name,
+.footer-logo .brand-name {
+  color: #ffffff !important;
+  font-size: 1.45rem;
+}
+
 .footer-container {
   display: grid;
   grid-template-columns: 1.5fr repeat(3, 1fr);
