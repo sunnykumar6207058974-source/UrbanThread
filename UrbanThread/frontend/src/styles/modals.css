@@ -160,8 +160,10 @@
   max-height: 92vh;
   border-radius: var(--radius-lg);
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   padding: 36px;
+  box-sizing: border-box;
   box-shadow: var(--shadow-lg);
   animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -178,6 +180,8 @@
   display: grid;
   grid-template-columns: 1.3fr 0.9fr;
   gap: 36px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .checkout-block {
