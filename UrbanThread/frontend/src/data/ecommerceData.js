@@ -86,9 +86,9 @@ export const CATEGORIES = [
   {
     id: "women",
     targetCategory: "Women",
-    name: "Women's Fashion",
+    name: "Women's Fashion & Suits",
     itemCount: "14,200+ Items",
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=400&auto=format&fit=crop",
+    image: "/suits/emerald-anarkali.jpg",
     tag: "60% OFF"
   },
   {
@@ -528,6 +528,121 @@ export const ALL_PRODUCTS = [
     sizes: ["Free Size (5.5m + 0.8m Blouse)"],
     colors: ["#27ae60", "#f39c12", "#d4af37"],
     description: "Authentic handloom Tussar silk drape boasting vibrant emerald green body with rich mustard gold zari temple border.",
+    isNew: true
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // 👗 5 LUXURY WOMEN'S SUITS (WOMEN SECTION)
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "suit-1",
+    name: "Royal Emerald Velvet Embroidered Anarkali Suit Set",
+    category: "Women",
+    brand: "RITU KUMAR COUTURE",
+    price: 145,
+    originalPrice: 290,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 680,
+    stockLeft: 7,
+    totalStock: 35,
+    image: "/suits/emerald-anarkali.jpg",
+    images: [
+      "/suits/emerald-anarkali.jpg"
+    ],
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    colors: ["#0f5132", "#1a472a", "#d4af37"],
+    description: "Opulent micro-velvet Anarkali suit set in royal emerald green featuring intricate gold zardozi hand embroidery, heavy flared hemline, churidar pants, and a sheer embroidered dupatta with golden border.",
+    isBestSeller: true,
+    isTrending: true,
+    isNew: true
+  },
+  {
+    id: "suit-2",
+    name: "Pastel Blush Georgette Mirror-Work Sharara Suit",
+    category: "Women",
+    brand: "BIBA LUXE",
+    price: 115,
+    originalPrice: 230,
+    discount: "50% OFF",
+    rating: 4.8,
+    reviewsCount: 520,
+    stockLeft: 12,
+    totalStock: 50,
+    image: "/suits/blush-sharara.jpg",
+    images: [
+      "/suits/blush-sharara.jpg"
+    ],
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["#f7d1d5", "#fce4ec", "#c0c0c0"],
+    description: "Ethereal pastel blush pink georgette kurta featuring delicate silver foil mirror work, tiered flared sharara pants with gota patti borders, and a lightweight scalloped dupatta.",
+    isTrending: true,
+    isNew: true
+  },
+  {
+    id: "suit-3",
+    name: "Midnight Navy Blue Zardozi Silk Straight Suit Set",
+    category: "Women",
+    brand: "MANISH MALHOTRA CURATED",
+    price: 165,
+    originalPrice: 330,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 740,
+    stockLeft: 5,
+    totalStock: 30,
+    image: "/suits/navy-zardozi.jpg",
+    images: [
+      "/suits/navy-zardozi.jpg"
+    ],
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: ["#0c1445", "#1e3799", "#f6b93b"],
+    description: "Regal midnight navy raw silk straight-cut kurta tailored with antique gold zardozi & dabka neck work, sleek cigarette trousers, and a luxurious banarasi woven silk dupatta.",
+    isBestSeller: true,
+    isTrending: true
+  },
+  {
+    id: "suit-4",
+    name: "Ivory & Gold Chikankari Hand-Embroidered Kurta Suit",
+    category: "Women",
+    brand: "LUCKNOWI HERITAGE",
+    price: 125,
+    originalPrice: 250,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 890,
+    stockLeft: 9,
+    totalStock: 45,
+    image: "/suits/ivory-chikankari.jpg",
+    images: [
+      "/suits/ivory-chikankari.jpg"
+    ],
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["#fafaf0", "#fffaf0", "#e6cf8b"],
+    description: "Mastercrafted Lucknowi Chikankari floral needlework on pure georgette with subtle pearl and mukaish embellishments, paired with wide-leg palazzo pants and a scalloped embroidered organza dupatta.",
+    isBestSeller: true,
+    isNew: true
+  },
+  {
+    id: "suit-5",
+    name: "Crimson Red Festive Organza Pakistani Salwar Suit",
+    category: "Women",
+    brand: "SABYASACHI INSPIRA",
+    price: 155,
+    originalPrice: 310,
+    discount: "50% OFF",
+    rating: 4.8,
+    reviewsCount: 610,
+    stockLeft: 8,
+    totalStock: 40,
+    image: "/suits/crimson-pakistani.jpg",
+    images: [
+      "/suits/crimson-pakistani.jpg"
+    ],
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: ["#8b0000", "#c0392b", "#d4af37"],
+    description: "Vibrant crimson festive organza suit adorned with heavy tilla embroidery, cutwork sleeves, embroidered wide-leg trousers, and a lightweight organza dupatta with four-sided embroidered borders.",
+    isTrending: true,
     isNew: true
   },
 
