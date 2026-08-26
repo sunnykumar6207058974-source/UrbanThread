@@ -309,6 +309,18 @@ export const Header = ({ onOpenAuth }) => {
             >
               <Zap size={14} /> Flash Sale
             </a>
+
+            <button
+              type="button"
+              className="nav-link admin-nav-btn"
+              onClick={() => {
+                setIsAdminOpen(true);
+                setIsMobileMenuOpen(false);
+              }}
+              title="Open Admin Dashboard Console"
+            >
+              <ShieldCheck size={16} color="#2874f0" /> Admin Dashboard
+            </button>
           </nav>
 
           {/* Instant Search Bar with Visual Autocomplete Suggestions */}
