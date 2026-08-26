@@ -1380,6 +1380,146 @@ export const ALL_PRODUCTS = [
     colors: ["#f5f6fa", "#dcdde1", "#718093"],
     description: "100% Mongolian pure cashmere sweater, cloud-soft texture, ribbed cuffs, and flattering relaxed silhouette.",
     isBestSeller: true
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // 💄 BEAUTY & SKINCARE
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "beauty-1",
+    name: "24K Gold Peptide Cellular Revitalizing Face Oil 30ml",
+    category: "Beauty",
+    brand: "LUMIÈRE BOTANICS",
+    price: 49,
+    originalPrice: 98,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 640,
+    stockLeft: 14,
+    totalStock: 50,
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1608248597261-833258657b45?q=80&w=800&auto=format&fit=crop"
+    ],
+    colors: ["#f6b93b"],
+    description: "Infused with pure 24K gold flakes, copper peptides, and botanical squalane for intense barrier repair and radiant firmness.",
+    isTrending: true,
+    isNew: true
+  },
+  {
+    id: "beauty-2",
+    name: "Velvet Rose & French Amber Eau De Parfum 100ml",
+    category: "Beauty",
+    brand: "MAISON PARFUMS",
+    price: 85,
+    originalPrice: 170,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 1120,
+    stockLeft: 9,
+    totalStock: 40,
+    image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop"
+    ],
+    colors: ["#eb4d4b", "#f0932b"],
+    description: "Exquisite niche extrait fragrance combining Turkish Damascena rose, smoldering ambergris, and Tahitian vanilla.",
+    isBestSeller: true
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // 👜 BAGS & ACCESSORIES
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "acc-1",
+    name: "Quilted Lambskin Chain Shoulder Bag with Gold Hardware",
+    category: "Accessories",
+    brand: "MILANO LEATHER",
+    price: 189,
+    originalPrice: 380,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 890,
+    stockLeft: 7,
+    totalStock: 30,
+    image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800&auto=format&fit=crop"
+    ],
+    colors: ["#111111", "#d4af37", "#f5f6fa"],
+    description: "Supple diamond-quilted Italian lambskin leather shoulder bag featuring 24K gold-tone interlocking hardware and convertible sliding chain strap.",
+    isTrending: true,
+    isBestSeller: true
+  },
+  {
+    id: "acc-2",
+    name: "Classic Polarized Aviator Titanium Sunglasses",
+    category: "Accessories",
+    brand: "VERONA OPTICS",
+    price: 79,
+    originalPrice: 160,
+    discount: "51% OFF",
+    rating: 4.8,
+    reviewsCount: 750,
+    stockLeft: 16,
+    totalStock: 60,
+    image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=800&auto=format&fit=crop"
+    ],
+    colors: ["#d4af37", "#111111", "#2d3436"],
+    description: "Ultra-light aerospace titanium frames with polarized UV400 G-15 mineral glass lenses offering maximum glare reduction and crisp optics.",
+    isNew: true
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // 🏡 HOME & LIVING
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "home-1",
+    name: "Nordic Matte Ceramic Sculptural Vase Duo Set",
+    category: "Home",
+    brand: "LUMEN LIVING",
+    price: 45,
+    originalPrice: 90,
+    discount: "50% OFF",
+    rating: 4.8,
+    reviewsCount: 520,
+    stockLeft: 18,
+    totalStock: 50,
+    image: "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=800&auto=format&fit=crop"
+    ],
+    colors: ["#f5f0eb", "#2d3436", "#c7b198"],
+    description: "Artisanal hand-thrown ceramic vases with doughnut hollow silhouette and textured sand finish for modern wabi-sabi interiors.",
+    isTrending: true
+  },
+  {
+    id: "home-2",
+    name: "Smart Ultrasonic Ambient Aromatherapy Diffuser",
+    category: "Home",
+    brand: "LUMEN LIVING",
+    price: 39,
+    originalPrice: 80,
+    discount: "51% OFF",
+    rating: 4.9,
+    reviewsCount: 680,
+    stockLeft: 12,
+    totalStock: 45,
+    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=800&auto=format&fit=crop"
+    ],
+    colors: ["#f5f6fa", "#2f3640"],
+    description: "Whisper-quiet 500ml ultrasonic cool mist aroma diffuser with 7 ambient LED light modes, timer presets, and auto waterless shutoff.",
+    isNew: true
   }
 ];
 
