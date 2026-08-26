@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEcommerce } from '../context/EcommerceContext';
-import { Home, LayoutGrid, User, ShoppingBag, Heart, Sparkles } from 'lucide-react';
+import { Home, LayoutGrid, User, ShoppingBag, Heart } from 'lucide-react';
 
 export const MobileBottomNav = ({ onOpenAuth }) => {
   const {

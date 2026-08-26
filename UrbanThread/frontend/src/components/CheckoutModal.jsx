@@ -26,7 +26,6 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
     appliedCoupon,
     showToast,
     createOrder,
-    simulatePaymentSuccess,
     addresses,
     addAddress
   } = useEcommerce();

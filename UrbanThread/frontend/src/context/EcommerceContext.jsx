@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ALL_PRODUCTS } from '../data/ecommerceData';
 import { authAPI, productsAPI, cartAPI, usersAPI, couponsAPI, ordersAPI } from '../services/api';
 
@@ -494,7 +494,7 @@ export const EcommerceProvider = ({ children }) => {
         showToast(`🔑 Welcome back, ${u.name.split(' ')[0]}! Wishlist & bag loaded from your account.`, 'success');
         return true;
       }
-    } catch (err) {
+    } catch {
       // Fallback: local mock login if API is offline
       const userName = email ? email.split('@')[0] : 'Alex Johnson';
       setIsLoggedIn(true);
@@ -527,7 +527,7 @@ export const EcommerceProvider = ({ children }) => {
         showToast(`🎉 Welcome to UrbanThread, ${u.name}! 20% OFF welcome coupon applied.`, 'success');
         return true;
       }
-    } catch (err) {
+    } catch {
       // Fallback: local mock signup if API is offline
       const userName = name || 'New VIP Member';
       setIsLoggedIn(true);
