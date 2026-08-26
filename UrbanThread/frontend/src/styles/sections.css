@@ -92,9 +92,9 @@
    5. FLASH SALE SECTION
    ========================================================================== */
 .flash-sale-section {
-  background: linear-gradient(135deg, #0f1117 0%, #1e1b2e 100%);
-  color: #ffffff;
-  padding: 64px 32px;
+  background: transparent;
+  color: var(--text-main);
+  padding: 48px 32px;
   position: relative;
 }
 
@@ -136,12 +136,12 @@
 .flash-main-title {
   font-size: 1.8rem;
   font-weight: 900;
-  color: #ffffff;
+  color: var(--text-main);
   letter-spacing: -0.5px;
 }
 
 .flash-subtitle {
-  color: #a0aec0;
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 
@@ -150,16 +150,16 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.08);
+  background: #f8fafc;
   padding: 10px 20px;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border-light);
 }
 
 .countdown-label {
   font-size: 0.85rem;
   font-weight: 800;
-  color: var(--accent-gold);
+  color: var(--primary-brand);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -176,7 +176,9 @@
   flex-direction: column;
   align-items: center;
   background: #ffffff;
-  color: var(--dark-obsidian);
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
   padding: 4px 8px;
   border-radius: var(--radius-sm);
   min-width: 38px;
@@ -186,6 +188,7 @@
   font-family: var(--font-family-heading);
   font-size: 1.1rem;
   font-weight: 900;
+  color: var(--text-main);
 }
 
 .timer-lbl {
@@ -197,7 +200,7 @@
 .colon {
   font-weight: 900;
   font-size: 1.2rem;
-  color: var(--accent-gold);
+  color: var(--primary-brand);
 }
 
 /* Flash Products Cards */
