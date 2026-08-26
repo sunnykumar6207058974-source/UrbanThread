@@ -161,3 +161,12 @@ img[loading="lazy"]:hover {
   gap: 6px;
 }
 
+/* Spinning loader animation */
+@keyframes spin-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin-rotate 0.9s linear infinite;
+}
