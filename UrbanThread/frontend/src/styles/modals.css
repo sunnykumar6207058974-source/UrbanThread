@@ -802,12 +802,15 @@
   background: #ffffff;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
   box-shadow: var(--shadow-sm);
 }
 
 .admin-table {
   width: 100%;
+  min-width: 650px;
   border-collapse: collapse;
   font-size: 0.88rem;
   text-align: left;
@@ -819,11 +822,32 @@
   font-weight: 800;
   color: var(--text-muted);
   border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
 }
 
 .admin-table td {
   padding: 14px 18px;
   border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
+}
+
+.status-select {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-light);
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: #ffffff;
+  color: var(--text-main);
+  cursor: pointer;
+  min-width: 120px;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.status-select:focus {
+  border-color: var(--primary-brand);
+  box-shadow: 0 0 0 3px rgba(255, 63, 108, 0.15);
 }
 
 .table-product-cell {
