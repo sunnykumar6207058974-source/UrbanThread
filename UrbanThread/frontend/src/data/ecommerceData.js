@@ -762,6 +762,120 @@ export const ALL_PRODUCTS = [
   },
 
   // ═══════════════════════════════════════════════════════════
+  // 💼 5 LUXURY MEN'S LEATHER PURSES & WALLETS (MEN SECTION)
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: "wallet-1",
+    name: "Montblanc Meisterstück Full-Grain Leather Bi-Fold Wallet",
+    category: "Men",
+    brand: "MONTBLANC",
+    price: 95,
+    originalPrice: 190,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 840,
+    stockLeft: 12,
+    totalStock: 50,
+    image: "/wallets/black-bifold.jpg",
+    images: [
+      "/wallets/black-bifold.jpg"
+    ],
+    sizes: ["Standard Bi-Fold (8 Card Slots)"],
+    colors: ["#111111", "#1e272e"],
+    description: "Handcrafted from European full-grain cowhide leather with Montblanc palladium-coated emblem, 8 credit card slots, 2 banknotes compartments, and 2 additional pockets.",
+    isBestSeller: true,
+    isTrending: true,
+    isNew: true
+  },
+  {
+    id: "wallet-2",
+    name: "Bottega Veneta Intrecciato Woven Calfskin Long Zip Purse",
+    category: "Men",
+    brand: "BOTTEGA VENETA",
+    price: 145,
+    originalPrice: 290,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 620,
+    stockLeft: 7,
+    totalStock: 35,
+    image: "/wallets/woven-long-purse.jpg",
+    images: [
+      "/wallets/woven-long-purse.jpg"
+    ],
+    sizes: ["Full Length Zip-Around (19cm x 10cm)"],
+    colors: ["#3d271d", "#1b140e", "#5a3d28"],
+    description: "Iconic Intrecciato hand-woven calfskin leather long wallet purse featuring 12 card slots, central zipped coin purse, multiple cash compartments, and smooth gold-tone zipper.",
+    isBestSeller: true,
+    isTrending: true
+  },
+  {
+    id: "wallet-3",
+    name: "Louis Vuitton Graphite Leather Trifold Coin & Bill Purse",
+    category: "Men",
+    brand: "LOUIS VUITTON CURATED",
+    price: 125,
+    originalPrice: 250,
+    discount: "50% OFF",
+    rating: 4.8,
+    reviewsCount: 510,
+    stockLeft: 9,
+    totalStock: 40,
+    image: "/wallets/graphite-trifold.jpg",
+    images: [
+      "/wallets/graphite-trifold.jpg"
+    ],
+    sizes: ["Compact Trifold with Coin Snap"],
+    colors: ["#2d3436", "#4a4a4a", "#1e272e"],
+    description: "Sophisticated textured graphite leather trifold wallet with dedicated snap-button coin purse pocket, ID window, 6 card slots, and full-length bills divider.",
+    isTrending: true,
+    isNew: true
+  },
+  {
+    id: "wallet-4",
+    name: "Artisan Distressed Cognac Brown Leather Slim Billfold Purse",
+    category: "Men",
+    brand: "SAVILE ROW LEATHER",
+    price: 75,
+    originalPrice: 150,
+    discount: "50% OFF",
+    rating: 4.8,
+    reviewsCount: 970,
+    stockLeft: 15,
+    totalStock: 60,
+    image: "/wallets/vintage-brown.jpg",
+    images: [
+      "/wallets/vintage-brown.jpg"
+    ],
+    sizes: ["Slim Minimalist Bi-Fold"],
+    colors: ["#8b5a2b", "#a0522d", "#5c3317"],
+    description: "Vintage oiled pull-up leather wallet with heavy-duty contrast saddle stitching, RFID-blocking inner lining, and quick-access thumb slot for primary cards.",
+    isBestSeller: true
+  },
+  {
+    id: "wallet-5",
+    name: "Tom Ford Grained Leather Zip Wristlet Organizer Clutch Purse",
+    category: "Men",
+    brand: "TOM FORD LUXE",
+    price: 135,
+    originalPrice: 270,
+    discount: "50% OFF",
+    rating: 4.9,
+    reviewsCount: 390,
+    stockLeft: 5,
+    totalStock: 25,
+    image: "/wallets/grained-wristlet.jpg",
+    images: [
+      "/wallets/grained-wristlet.jpg"
+    ],
+    sizes: ["Large Wristlet Clutch (24cm x 15cm)"],
+    colors: ["#111111", "#2c3e50"],
+    description: "Premium pebbled full-grain leather document and cash clutch purse with detachable leather wristlet strap, heavy signature gold zip, and internal card organizers.",
+    isTrending: true,
+    isNew: true
+  },
+
+  // ═══════════════════════════════════════════════════════════
   // 📱 5 MOBILES
   // ═══════════════════════════════════════════════════════════
   {
