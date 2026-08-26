@@ -74,19 +74,43 @@
   }
   .nav-menu.mobile-open {
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+  }
+  .nav-menu.mobile-open .mega-menu-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   .nav-menu.mobile-open .nav-link {
     width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
     padding: 10px 14px;
     border-radius: var(--radius-sm);
+  }
+  .nav-menu.mobile-open .flash-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
   }
   .nav-menu.mobile-open .admin-nav-btn {
     width: 100%;
     padding: 12px 14px;
     font-size: 0.95rem;
     font-weight: 700;
-    justify-content: flex-start;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
     border-radius: var(--radius-md);
     background: rgba(40, 116, 240, 0.08);
     color: #2874f0;
