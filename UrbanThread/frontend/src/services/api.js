@@ -71,7 +71,8 @@ export const cartAPI = {
   add: (body) => request('/cart', { method: 'POST', body: JSON.stringify(body) }),
   update: (itemId, body) => request(`/cart/${itemId}`, { method: 'PUT', body: JSON.stringify(body) }),
   remove: (itemId) => request(`/cart/${itemId}`, { method: 'DELETE' }),
-  clear: () => request('/cart', { method: 'DELETE' })
+  clear: () => request('/cart', { method: 'DELETE' }),
+  sync: (items) => request('/cart/sync', { method: 'PUT', body: JSON.stringify({ items }) })
 };
 
 // ── Orders ────────────────────────────────────────────────────────────────────

@@ -27,6 +27,36 @@ const getAvatarUrl = (name) => {
   return `https://ui-avatars.com/api/?name=${initials}&background=ff3f6c&color=fff&size=200&bold=true`;
 };
 
+// ─── Map server cart to frontend state shape ────────────────────────────────
+const mapServerCart = (serverCart) => {
+  if (!Array.isArray(serverCart)) return [];
+  return serverCart
+    .filter((ci) => ci && ci.product)
+    .map((ci) => {
+      const p = ci.product;
+      const productObj =
+        typeof p === 'object'
+          ? {
+              ...p,
+              id: p.slug || p._id || p.id
+            }
+          : ALL_PRODUCTS.find((ap) => ap.id === p) || {
+              id: p,
+              name: 'Product',
+              price: 0,
+              image: ''
+            };
+
+      return {
+        _id: ci._id,
+        product: productObj,
+        quantity: ci.quantity || 1,
+        selectedSize: ci.selectedSize || null,
+        selectedColor: ci.selectedColor || null
+      };
+    });
+};
+
 const EcommerceContext = createContext();
 
 export const EcommerceProvider = ({ children }) => {
@@ -193,6 +223,33 @@ export const EcommerceProvider = ({ children }) => {
   ];
   const [returns, setReturns] = useState(() => load('ut_returns', defaultReturns));
 
+  // ── Sync cart from backend when authenticated / mounted ───────────────────
+  useEffect(() => {
+    const syncCartWithServer = async () => {
+      const token = authAPI.getToken();
+      if (!token || !isLoggedIn) return;
+
+      try {
+        const data = await cartAPI.get();
+        if (data.success) {
+          if (data.cart && data.cart.length > 0) {
+            setCart(mapServerCart(data.cart));
+          } else if (cart.length > 0) {
+            // Local cart has items, sync them up to the server database
+            const syncRes = await cartAPI.sync(cart);
+            if (syncRes.success && syncRes.cart) {
+              setCart(mapServerCart(syncRes.cart));
+            }
+          }
+        }
+      } catch {
+        // Backend offline — keep local cart gracefully
+      }
+    };
+
+    syncCartWithServer();
+  }, [isLoggedIn]);
+
   // ── Persist key slices to localStorage whenever they change ─────────────
   useEffect(() => { save('ut_cart', cart); }, [cart]);
   useEffect(() => { save('ut_wishlist', wishlist); }, [wishlist]);
@@ -294,6 +351,24 @@ export const EcommerceProvider = ({ children }) => {
     });
 
     showToast(`🛒 Added "${product.name.slice(0, 24)}..." to your bag!`, 'success');
+
+    // Sync to backend database if user is authenticated
+    const token = authAPI.getToken();
+    if (token && isLoggedIn) {
+      cartAPI
+        .add({
+          productId: product.slug || product.id || product._id,
+          quantity,
+          selectedSize: resolvedSize,
+          selectedColor: resolvedColor
+        })
+        .then((res) => {
+          if (res.success && res.cart) {
+            setCart(mapServerCart(res.cart));
+          }
+        })
+        .catch(() => {});
+    }
   };
 
   // Fix #1: remove by composite key (productId + size + color)
@@ -302,33 +377,60 @@ export const EcommerceProvider = ({ children }) => {
     const itemToRemove = cart.find(
       (item) => makeVariantKey(item.product.id, item.selectedSize, item.selectedColor) === key
     );
-    setCart((prev) =>
-      prev.filter(
-        (item) => makeVariantKey(item.product.id, item.selectedSize, item.selectedColor) !== key
-      )
+    const updatedCart = cart.filter(
+      (item) => makeVariantKey(item.product.id, item.selectedSize, item.selectedColor) !== key
     );
+    setCart(updatedCart);
     showToast(`🗑️ Removed "${itemToRemove?.product.name.slice(0, 20) || 'item'}" from cart.`, 'info');
+
+    // Sync removal to backend database
+    const token = authAPI.getToken();
+    if (token && isLoggedIn) {
+      if (itemToRemove?._id) {
+        cartAPI.remove(itemToRemove._id).catch(() => {});
+      } else {
+        cartAPI.sync(updatedCart).catch(() => {});
+      }
+    }
   };
 
   // Fix #1: update by composite key (productId + size + color)
   const updateQuantity = (productId, delta, selectedSize, selectedColor) => {
     const key = makeVariantKey(productId, selectedSize, selectedColor);
-    setCart((prev) =>
-      prev
-        .map((item) => {
-          if (makeVariantKey(item.product.id, item.selectedSize, item.selectedColor) === key) {
-            const newQty = item.quantity + delta;
-            if (newQty <= 0) {
-              showToast(`🗑️ Removed item from cart.`, 'info');
-              return null;
-            }
-            showToast(`Updated item quantity to ${newQty}.`, 'info');
-            return { ...item, quantity: newQty };
-          }
-          return item;
-        })
-        .filter(Boolean)
+    const targetItem = cart.find(
+      (item) => makeVariantKey(item.product.id, item.selectedSize, item.selectedColor) === key
     );
+    const newQty = targetItem ? targetItem.quantity + delta : 1;
+
+    const updatedCart = cart
+      .map((item) => {
+        if (makeVariantKey(item.product.id, item.selectedSize, item.selectedColor) === key) {
+          if (newQty <= 0) {
+            showToast(`🗑️ Removed item from cart.`, 'info');
+            return null;
+          }
+          showToast(`Updated item quantity to ${newQty}.`, 'info');
+          return { ...item, quantity: newQty };
+        }
+        return item;
+      })
+      .filter(Boolean);
+
+    setCart(updatedCart);
+
+    // Sync quantity change to backend database
+    const token = authAPI.getToken();
+    if (token && isLoggedIn && targetItem) {
+      if (targetItem._id) {
+        if (newQty <= 0) {
+          cartAPI.remove(targetItem._id).catch(() => {});
+        } else {
+          cartAPI.update(targetItem._id, { quantity: newQty }).catch(() => {});
+        }
+      } else {
+        cartAPI.sync(updatedCart).catch(() => {});
+      }
+    }
   };
 
   const toggleWishlist = (productId) => {
@@ -381,13 +483,13 @@ export const EcommerceProvider = ({ children }) => {
         setAddresses(u.addresses || []);
         setNotifications(u.notifications || []);
         if (u.appliedCoupon?.code) setAppliedCoupon(u.appliedCoupon);
-        // Sync cart: prefer server cart if it has items
+        // Sync cart: prefer server cart if it has items, otherwise sync local cart
         if (u.cart && u.cart.length > 0) {
-          const mappedCart = u.cart.map(ci => ({
-            ...ci,
-            product: { ...ci.product, id: ci.product.slug || ci.product._id }
-          }));
-          setCart(mappedCart);
+          setCart(mapServerCart(u.cart));
+        } else if (cart && cart.length > 0) {
+          cartAPI.sync(cart).then((res) => {
+            if (res.success && res.cart) setCart(mapServerCart(res.cart));
+          }).catch(() => {});
         }
         showToast(`🔑 Welcome back, ${u.name.split(' ')[0]}! Wishlist & bag loaded from your account.`, 'success');
         return true;
@@ -417,6 +519,11 @@ export const EcommerceProvider = ({ children }) => {
         setAddresses(u.addresses || []);
         setNotifications(u.notifications || []);
         setAppliedCoupon({ code: 'FASHION20', discountPercent: 20 });
+        if (cart && cart.length > 0) {
+          cartAPI.sync(cart).then((res) => {
+            if (res.success && res.cart) setCart(mapServerCart(res.cart));
+          }).catch(() => {});
+        }
         showToast(`🎉 Welcome to UrbanThread, ${u.name}! 20% OFF welcome coupon applied.`, 'success');
         return true;
       }
@@ -487,6 +594,12 @@ export const EcommerceProvider = ({ children }) => {
     setCart([]);
     setAppliedCoupon(null);
     setIsCartOpen(false);
+
+    // Clear cart in backend database
+    const token = authAPI.getToken();
+    if (token && isLoggedIn) {
+      cartAPI.clear().catch(() => {});
+    }
 
     // Call backend API if running
     try {

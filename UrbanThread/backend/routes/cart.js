@@ -60,6 +60,50 @@ router.post('/', async (req, res) => {
   }
 });
 
+// PUT /api/cart/sync — sync entire cart
+router.put('/sync', async (req, res) => {
+  try {
+    const { items = [] } = req.body;
+    const user = await User.findById(req.user._id);
+    const newCart = [];
+
+    for (const item of items) {
+      const productId = item.product?._id || item.product?.id || item.productId;
+      if (!productId) continue;
+      const product = await findProduct(productId);
+      if (!product) continue;
+
+      const qty = Number(item.quantity) || 1;
+      const selectedSize = item.selectedSize || null;
+      const selectedColor = item.selectedColor || null;
+
+      const existingIdx = newCart.findIndex(
+        (ci) => String(ci.product) === String(product._id) &&
+                ci.selectedSize === selectedSize &&
+                ci.selectedColor === selectedColor
+      );
+
+      if (existingIdx > -1) {
+        newCart[existingIdx].quantity += qty;
+      } else {
+        newCart.push({
+          product: product._id,
+          quantity: qty,
+          selectedSize,
+          selectedColor
+        });
+      }
+    }
+
+    user.cart = newCart;
+    await user.save({ validateBeforeSave: false });
+    const updatedUser = await User.findById(req.user._id).populate('cart.product');
+    res.json({ success: true, cart: updatedUser.cart });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // PUT /api/cart/:itemId — update quantity
 router.put('/:itemId', async (req, res) => {
   try {
