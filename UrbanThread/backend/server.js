@@ -14,11 +14,14 @@ const app = express();
 // ── Security Middleware ──────────────────────────────────────────────────────
 app.use(helmet());
 app.use(cors({
-  origin: [
-    process.env.CLIENT_URL || 'http://localhost:5174',
-    'http://localhost:5173',
-    'http://localhost:3000'
-  ],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl) or localhost, or vercel.app
+    if (!origin || origin.includes('localhost') || origin.endsWith('.vercel.app') || origin.endsWith('.render.com') || origin === process.env.CLIENT_URL) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Permissive for production deployment
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
