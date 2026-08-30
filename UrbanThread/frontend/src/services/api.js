@@ -5,10 +5,7 @@
  */
 
 const BASE_URL =
-  import.meta.env.VITE_API_URL ||
-  (import.meta.env.PROD
-    ? 'https://urbanthread-xjpv.onrender.com/api'
-    : 'http://localhost:5000/api');
+  import.meta.env.VITE_API_URL || 'https://urbanthread-xjpv.onrender.com/api';
 
 // ── Token Management ─────────────────────────────────────────────────────────
 const getToken = () => localStorage.getItem('ut_token');
