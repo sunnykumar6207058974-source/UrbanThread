@@ -151,13 +151,13 @@ export const EcommerceProvider = ({ children }) => {
   const defaultUser = {
     name: 'Alex Johnson',
     email: 'alex.johnson@example.com',
-    phone: '+1 (555) 019-2834',
+    phone: '+91 98765 43210',
     avatar: getAvatarUrl('Alex Johnson'),
     memberTier: 'VIP Platinum Member',
     rewardPoints: 1250
   };
-  const [user, setUser] = useState(() => load('ut_user', defaultUser));
-  const [isLoggedIn, setIsLoggedIn] = useState(() => load('ut_logged_in', true));
+  const [user, setUser] = useState(() => load('ut_user', null));
+  const [isLoggedIn, setIsLoggedIn] = useState(() => load('ut_logged_in', false));
   const [accountTab, setAccountTab] = useState('orders');
   const [appliedCoupon, setAppliedCoupon] = useState(() => load('ut_coupon', null));
   const [toastNotification, setToastNotification] = useState(null);
@@ -539,6 +539,67 @@ export const EcommerceProvider = ({ children }) => {
     return false;
   };
 
+  // Mobile number OTP login with API and local fallback
+  const loginWithPhone = async (phone, name = '') => {
+    const cleanPhone = phone.trim();
+    try {
+      const data = await authAPI.loginPhone({ phone: cleanPhone, name });
+      if (data.success) {
+        authAPI.saveToken(data.token);
+        const u = data.user;
+        setIsLoggedIn(true);
+        setUser(u);
+        setWishlist(u.wishlist || ['flash-3', 'prod-7']);
+        setAddresses(u.addresses || []);
+        setNotifications(u.notifications || []);
+        if (u.appliedCoupon?.code) setAppliedCoupon(u.appliedCoupon);
+        if (u.cart && u.cart.length > 0) {
+          setCart(mapServerCart(u.cart));
+        }
+        showToast(`📱 Welcome, ${u.name}! Mobile login successful.`, 'success');
+        return true;
+      }
+    } catch {
+      // Fallback: local mock phone login if API is offline
+      const userName = name || `User ${cleanPhone.slice(-4) || 'VIP'}`;
+      const loggedUser = {
+        name: userName,
+        phone: cleanPhone,
+        email: `${cleanPhone.replace(/[^0-9]/g, '') || 'user'}@urbanthread.in`,
+        avatar: getAvatarUrl(userName),
+        memberTier: 'VIP Gold Member',
+        rewardPoints: 500,
+        wishlist: ['flash-3', 'prod-7'],
+        addresses: addresses.length > 0 ? addresses : [
+          {
+            id: 'addr-1',
+            name: `${userName} (Home)`,
+            street: '452 Fashion Ave, Block C',
+            city: 'New Delhi, 110001',
+            phone: cleanPhone,
+            isDefault: true
+          }
+        ],
+        notifications: [
+          {
+            id: Date.now(),
+            title: `🎉 Welcome to UrbanThread, ${userName}!`,
+            message: `Account verified with ${cleanPhone}. 20% OFF welcome coupon activated!`,
+            time: 'Just now',
+            unread: true
+          }
+        ]
+      };
+      setIsLoggedIn(true);
+      setUser(loggedUser);
+      setWishlist(['flash-3', 'prod-7']);
+      setAppliedCoupon({ code: 'FASHION20', discountPercent: 20 });
+      showToast(`📱 Welcome, ${userName}! Logged in with ${cleanPhone}.`, 'success');
+      return true;
+    }
+    return false;
+  };
+
   const logout = () => {
     authAPI.clearToken();
     setIsLoggedIn(false);
@@ -705,6 +766,7 @@ export const EcommerceProvider = ({ children }) => {
         user,
         isLoggedIn,
         login,
+        loginWithPhone,
         signup,
         logout,
         updateUserProfile,

@@ -46,6 +46,7 @@ export const checkHealth = () => request('/health');
 export const authAPI = {
   register: (body) => request('/auth/register', { method: 'POST', body: JSON.stringify(body) }),
   login: (body) => request('/auth/login', { method: 'POST', body: JSON.stringify(body) }),
+  loginPhone: (body) => request('/auth/login-phone', { method: 'POST', body: JSON.stringify(body) }),
   me: () => request('/auth/me'),
   updatePassword: (body) => request('/auth/password', { method: 'PUT', body: JSON.stringify(body) }),
   saveToken: setToken,

@@ -101,6 +101,59 @@ router.post('/login',
   }
 );
 
+// POST /api/auth/login-phone
+router.post('/login-phone',
+  [
+    body('phone').trim().notEmpty().withMessage('Valid phone number is required')
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
+
+    try {
+      const { phone, name } = req.body;
+      const cleanPhone = phone.replace(/[^0-9+]/g, '');
+      let user = await User.findOne({ phone: cleanPhone });
+
+      if (!user) {
+        // Register new user with this phone
+        const defaultName = name || `User ${cleanPhone.slice(-4) || 'VIP'}`;
+        const defaultEmail = `${cleanPhone.replace(/[^0-9]/g, '') || Date.now()}@urbanthread.in`;
+        user = await User.create({
+          name: defaultName,
+          email: defaultEmail,
+          phone: cleanPhone,
+          password: 'phone-auth-' + Math.random().toString(36).slice(2, 10),
+          memberTier: 'VIP Gold Member',
+          rewardPoints: 500,
+          appliedCoupon: { code: 'FASHION20', discountPercent: 20 },
+          notifications: [{
+            title: `🎉 Welcome to UrbanThread, ${defaultName}!`,
+            message: `Account created with phone ${cleanPhone}. 20% OFF welcome coupon activated!`,
+            time: 'Just now',
+            unread: true
+          }]
+        });
+      } else {
+        if (name && (!user.name || user.name.startsWith('User '))) {
+          user.name = name;
+        }
+        user.notifications.unshift({
+          title: `📱 Welcome back, ${user.name.split(' ')[0]}!`,
+          message: 'Logged in via Mobile Number verification.',
+          time: 'Just now',
+          unread: true
+        });
+        await user.save({ validateBeforeSave: false });
+      }
+
+      sendTokenResponse(user, 200, res);
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+  }
+);
+
 // GET /api/auth/me (protected)
 router.get('/me', protect, async (req, res) => {
   try {

@@ -112,7 +112,7 @@ export const CATEGORIES = [
     targetCategory: "Beauty",
     name: "Beauty & Skincare",
     itemCount: "3,800+ Items",
-    image: "https://images.unsplash.com/photo-1608248597261-833258657b45?q=80&w=400&auto=format&fit=crop",
+    image: "/beauty/skincare-serum.jpg",
     tag: "Up to 49% OFF"
   },
   {
@@ -1294,10 +1294,10 @@ export const ALL_PRODUCTS = [
     discount: "49% OFF",
     rating: 4.8,
     reviewsCount: 920,
-    image: "https://images.unsplash.com/photo-1608248597261-833258657b45?q=80&w=600&auto=format&fit=crop",
+    image: "/beauty/skincare-serum.jpg",
     images: [
-      "https://images.unsplash.com/photo-1608248597261-833258657b45?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop"
+      "/beauty/skincare-serum.jpg",
+      "/beauty/face-cream.jpg"
     ],
     colors: ["#eccc68"],
     description: "Infused with Triple Hyaluronic Acid, Niacinamide, and Rosehip Seed Oil for deep 72-hour moisture and glass skin luminosity.",
@@ -1400,7 +1400,7 @@ export const ALL_PRODUCTS = [
     image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600&auto=format&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1608248597261-833258657b45?q=80&w=800&auto=format&fit=crop"
+      "/beauty/face-cream.jpg"
     ],
     colors: ["#f6b93b"],
     description: "Infused with pure 24K gold flakes, copper peptides, and botanical squalane for intense barrier repair and radiant firmness.",

@@ -1130,8 +1130,8 @@ const PRODUCTS = [
     discount: '49% OFF',
     rating: 4.8,
     reviewsCount: 920,
-    image: 'https://images.unsplash.com/photo-1608248597261-833258657b45?q=80&w=600&auto=format&fit=crop',
-    images: ['https://images.unsplash.com/photo-1608248597261-833258657b45?q=80&w=800&auto=format&fit=crop'],
+    image: '/beauty/skincare-serum.jpg',
+    images: ['/beauty/skincare-serum.jpg', '/beauty/face-cream.jpg'],
     colors: ['#eccc68'],
     description: 'Infused with Triple Hyaluronic Acid, Niacinamide, and Rosehip Seed Oil.',
     isNewProduct: true

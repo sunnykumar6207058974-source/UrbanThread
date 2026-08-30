@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EcommerceProvider, useEcommerce } from './context/EcommerceContext';
 import { Header } from './components/Header';
 import { HeroBanner } from './components/HeroBanner';
@@ -41,10 +41,21 @@ const MainContent = () => {
     accountTab,
     isAdminOpen,
     setIsAdminOpen,
-    isDarkMode
+    isDarkMode,
+    isLoggedIn
   } = useEcommerce();
 
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+
+  // Automatically prompt user to login with mobile number when visiting the site if not logged in
+  useEffect(() => {
+    if (!isLoggedIn) {
+      const timer = setTimeout(() => {
+        setIsAuthOpen(true);
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoggedIn]);
 
   return (
     <div className={`app-main-layout ${isDarkMode ? 'dark-theme' : ''}`}>
