@@ -4,12 +4,16 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const useragent = require('express-useragent');
 const connectDB = require('./config/db');
 
 // Connect to MongoDB
 connectDB();
 
 const app = express();
+
+// ── User Agent Middleware ───────────────────────────────────────────────────
+app.use(useragent.express());
 
 // ── Security Middleware ──────────────────────────────────────────────────────
 app.use(helmet());
@@ -86,7 +90,7 @@ app.use((err, req, res, next) => {
 });
 
 // ── Start Server ──────────────────────────────────────────────────────────────
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => {
   console.log(`\n🚀 UrbanThread API Server`);
   console.log(`   ➜  Port:  http://localhost:${PORT}`);

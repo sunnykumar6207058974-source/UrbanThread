@@ -5,7 +5,7 @@
  */
 
 const BASE_URL =
-  import.meta.env.VITE_API_URL || 'https://urbanthread-xjpv.onrender.com/api';
+  import.meta.env.VITE_API_URL || 'http://localhost:5002/api';
 
 // ── Token Management ─────────────────────────────────────────────────────────
 const getToken = () => localStorage.getItem('ut_token');
@@ -48,6 +48,7 @@ export const authAPI = {
   register: (body) => request('/auth/register', { method: 'POST', body: JSON.stringify(body) }),
   login: (body) => request('/auth/login', { method: 'POST', body: JSON.stringify(body) }),
   loginPhone: (body) => request('/auth/login-phone', { method: 'POST', body: JSON.stringify(body) }),
+  firebaseLogin: (idToken, email = '') => request('/auth/firebase-login', { method: 'POST', body: JSON.stringify({ idToken, email }) }),
   me: () => request('/auth/me'),
   updatePassword: (body) => request('/auth/password', { method: 'PUT', body: JSON.stringify(body) }),
   saveToken: setToken,

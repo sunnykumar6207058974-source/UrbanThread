@@ -4,6 +4,22 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
+const useragent = require('express-useragent');
+const admin = require('../config/firebaseAdmin');
+const { sendLoginAlert } = require('../services/emailService');
+
+const getDeviceInfo = (req) => {
+  const ua = req.useragent || ((useragent.default && useragent.default.parse) ? useragent.default.parse(req.headers['user-agent'] || '') : {});
+  let deviceType = '💻 Laptop / Desktop';
+  if (ua && (ua.isMobile || ua.isiPhone || ua.isAndroid)) deviceType = '📱 Mobile Phone';
+  else if (ua && (ua.isTablet || ua.isiPad)) deviceType = '📱 Tablet';
+
+  const os = ua ? (ua.os || ua.platform || 'Unknown OS') : 'Unknown OS';
+  const browser = ua ? `${ua.browser || 'Web Browser'} ${ua.version || ''}`.trim() : 'Web Browser';
+  const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.ip || '').split(',')[0].trim();
+
+  return { deviceType, os, browser, ip };
+};
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
@@ -94,6 +110,14 @@ router.post('/login',
       });
       await user.save({ validateBeforeSave: false });
 
+      // Trigger Login Security Alert Email
+      const deviceInfo = getDeviceInfo(req);
+      sendLoginAlert({
+        toEmail: user.email,
+        userName: user.name,
+        ...deviceInfo
+      }).catch(err => console.error('Error sending login email alert:', err));
+
       sendTokenResponse(user, 200, res);
     } catch (err) {
       res.status(500).json({ success: false, message: err.message });
@@ -111,32 +135,47 @@ router.post('/login-phone',
     if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
 
     try {
-      const { phone, name } = req.body;
+      const { phone, name, email } = req.body;
       const cleanPhone = phone.replace(/[^0-9+]/g, '');
       let user = await User.findOne({ phone: cleanPhone });
 
       if (!user) {
         // Register new user with this phone
         const defaultName = name || `User ${cleanPhone.slice(-4) || 'VIP'}`;
-        const defaultEmail = `${cleanPhone.replace(/[^0-9]/g, '') || Date.now()}@urbanthread.in`;
-        user = await User.create({
-          name: defaultName,
-          email: defaultEmail,
-          phone: cleanPhone,
-          password: 'phone-auth-' + Math.random().toString(36).slice(2, 10),
-          memberTier: 'VIP Gold Member',
-          rewardPoints: 500,
-          appliedCoupon: { code: 'FASHION20', discountPercent: 20 },
-          notifications: [{
-            title: `🎉 Welcome to UrbanThread, ${defaultName}!`,
-            message: `Account created with phone ${cleanPhone}. 20% OFF welcome coupon activated!`,
-            time: 'Just now',
-            unread: true
-          }]
-        });
+        const defaultEmail = (email && email.includes('@')) 
+          ? email.trim().toLowerCase() 
+          : `${cleanPhone.replace(/[^0-9]/g, '') || Date.now()}@urbanthread.in`;
+
+        // Check if an existing user has that email
+        const existingEmailUser = await User.findOne({ email: defaultEmail });
+        if (existingEmailUser) {
+          user = existingEmailUser;
+          user.phone = cleanPhone;
+          if (name) user.name = name;
+          await user.save({ validateBeforeSave: false });
+        } else {
+          user = await User.create({
+            name: defaultName,
+            email: defaultEmail,
+            phone: cleanPhone,
+            password: 'phone-auth-' + Math.random().toString(36).slice(2, 10),
+            memberTier: 'VIP Gold Member',
+            rewardPoints: 500,
+            appliedCoupon: { code: 'FASHION20', discountPercent: 20 },
+            notifications: [{
+              title: `🎉 Welcome to UrbanThread, ${defaultName}!`,
+              message: `Account created with phone ${cleanPhone}. 20% OFF welcome coupon activated!`,
+              time: 'Just now',
+              unread: true
+            }]
+          });
+        }
       } else {
         if (name && (!user.name || user.name.startsWith('User '))) {
           user.name = name;
+        }
+        if (email && email.includes('@') && (!user.email || user.email.endsWith('@urbanthread.in'))) {
+          user.email = email.trim().toLowerCase();
         }
         user.notifications.unshift({
           title: `📱 Welcome back, ${user.name.split(' ')[0]}!`,
@@ -147,12 +186,107 @@ router.post('/login-phone',
         await user.save({ validateBeforeSave: false });
       }
 
+      // Trigger Login Security Alert Email if real email exists
+      if (user.email && !user.email.endsWith('@urbanthread.in')) {
+        const deviceInfo = getDeviceInfo(req);
+        sendLoginAlert({
+          toEmail: user.email,
+          userName: user.name,
+          ...deviceInfo
+        }).catch(err => console.error('Error sending phone login email alert:', err));
+      }
+
       sendTokenResponse(user, 200, res);
     } catch (err) {
       res.status(500).json({ success: false, message: err.message });
     }
   }
 );
+
+// POST /api/auth/firebase-login (Google & Firebase Auth)
+router.post('/firebase-login', async (req, res) => {
+  try {
+    const { idToken } = req.body;
+    if (!idToken) {
+      return res.status(400).json({ success: false, message: 'Firebase ID token is required.' });
+    }
+
+    if (!admin.isConfigured()) {
+      return res.status(500).json({ success: false, message: 'Firebase Admin is not configured on the server.' });
+    }
+
+    // Verify token with Firebase Admin SDK
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const { email, name, picture, uid, phone_number } = decodedToken;
+
+    const resolvedEmail = email || (req.body.email && req.body.email.includes('@') ? req.body.email.trim().toLowerCase() : null) || (phone_number ? `${phone_number.replace(/[^0-9]/g, '')}@urbanthread.in` : null);
+
+    if (!resolvedEmail && !phone_number) {
+      return res.status(400).json({ success: false, message: 'Firebase account must have an email or phone number.' });
+    }
+
+    let user = null;
+    if (uid) user = await User.findOne({ firebaseUid: uid });
+    if (!user && phone_number) user = await User.findOne({ phone: phone_number });
+    if (!user && resolvedEmail) user = await User.findOne({ email: resolvedEmail });
+
+    if (!user) {
+      const displayName = name || (phone_number ? `Member ${phone_number.slice(-4)}` : resolvedEmail.split('@')[0]) || 'VIP Member';
+      user = await User.create({
+        name: displayName,
+        email: resolvedEmail,
+        phone: phone_number || '',
+        avatar: picture || '',
+        firebaseUid: uid,
+        password: 'fb-auth-' + Math.random().toString(36).slice(2, 12),
+        memberTier: 'VIP Gold Member',
+        rewardPoints: 500,
+        appliedCoupon: { code: 'FASHION20', discountPercent: 20 },
+        notifications: [{
+          title: `🎉 Welcome to UrbanThread, ${displayName}!`,
+          message: phone_number ? `Verified with mobile number ${phone_number}.` : 'Signed in via Google. Your VIP welcome rewards are unlocked!',
+          time: 'Just now',
+          unread: true
+        }]
+      });
+    } else {
+      if (picture && !user.avatar) {
+        user.avatar = picture;
+      }
+      if (uid && !user.firebaseUid) {
+        user.firebaseUid = uid;
+      }
+      if (phone_number && !user.phone) {
+        user.phone = phone_number;
+      }
+      if (req.body.email && req.body.email.includes('@') && (!user.email || user.email.endsWith('@urbanthread.in'))) {
+        user.email = req.body.email.trim().toLowerCase();
+      }
+      user.notifications.unshift({
+        title: `🔑 Welcome back, ${user.name.split(' ')[0]}!`,
+        message: phone_number ? `Logged in via Mobile OTP (${phone_number}).` : 'Signed in successfully via Google.',
+        time: 'Just now',
+        unread: true
+      });
+      await user.save({ validateBeforeSave: false });
+    }
+
+    // Trigger Login Security Alert Email
+    if (user.email && !user.email.endsWith('@urbanthread.in')) {
+      const deviceInfo = getDeviceInfo(req);
+      sendLoginAlert({
+        toEmail: user.email,
+        userName: user.name,
+        ...deviceInfo
+      }).catch(err => console.error('Error sending login email alert:', err));
+    }
+
+    sendTokenResponse(user, 200, res);
+  } catch (err) {
+    console.error('Firebase login error:', err);
+    res.status(401).json({ success: false, message: 'Authentication failed: ' + (err.message || 'Invalid Firebase Token') });
+  }
+});
 
 // GET /api/auth/me (protected)
 router.get('/me', protect, async (req, res) => {

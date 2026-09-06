@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true, minlength: 6, select: false },
   phone: { type: String, default: '' },
   avatar: { type: String, default: '' },
+  firebaseUid: { type: String, default: '' },
   memberTier: { type: String, default: 'VIP Gold Member' },
   rewardPoints: { type: Number, default: 500 },
   isAdmin: { type: Boolean, default: false },

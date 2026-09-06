@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ALL_PRODUCTS } from '../data/ecommerceData';
 import { authAPI, productsAPI, cartAPI, usersAPI, couponsAPI, ordersAPI } from '../services/api';
+import { auth, googleProvider } from '../config/firebase';
+import { signInWithPopup } from 'firebase/auth';
 
 
 // ─── localStorage helpers ───────────────────────────────────────────────────
@@ -540,10 +542,10 @@ export const EcommerceProvider = ({ children }) => {
   };
 
   // Mobile number OTP login with API and local fallback
-  const loginWithPhone = async (phone, name = '') => {
+  const loginWithPhone = async (phone, name = '', email = '') => {
     const cleanPhone = phone.trim();
     try {
-      const data = await authAPI.loginPhone({ phone: cleanPhone, name });
+      const data = await authAPI.loginPhone({ phone: cleanPhone, name, email });
       if (data.success) {
         authAPI.saveToken(data.token);
         const u = data.user;
@@ -556,7 +558,8 @@ export const EcommerceProvider = ({ children }) => {
         if (u.cart && u.cart.length > 0) {
           setCart(mapServerCart(u.cart));
         }
-        showToast(`📱 Welcome, ${u.name}! Mobile login successful.`, 'success');
+        const emailNotice = (u.email && !u.email.endsWith('@urbanthread.in')) ? ` (Security alert sent to ${u.email})` : '';
+        showToast(`📱 Welcome, ${u.name}! Mobile login successful.${emailNotice}`, 'success');
         return true;
       }
     } catch {
@@ -598,6 +601,66 @@ export const EcommerceProvider = ({ children }) => {
       return true;
     }
     return false;
+  };
+
+  // Google Firebase Login with Real-time Security Email Alert
+  const loginWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const idToken = await result.user.getIdToken();
+
+      const data = await authAPI.firebaseLogin(idToken);
+      if (data.success) {
+        authAPI.saveToken(data.token);
+        const u = data.user;
+        setIsLoggedIn(true);
+        setUser(u);
+        setWishlist(u.wishlist || ['flash-3', 'prod-7']);
+        setAddresses(u.addresses || []);
+        setNotifications(u.notifications || []);
+        if (u.appliedCoupon?.code) setAppliedCoupon(u.appliedCoupon);
+        if (u.cart && u.cart.length > 0) {
+          setCart(mapServerCart(u.cart));
+        }
+        showToast(`🎉 Welcome, ${u.name}! Security login alert sent to ${u.email}`, 'success');
+        return { success: true, user: u };
+      }
+    } catch (err) {
+      console.error('Google sign-in error:', err);
+      if (err.code === 'auth/popup-closed-by-user') {
+        showToast('Login popup closed.', 'info');
+        return { success: false, cancelled: true };
+      }
+      showToast(err.message || 'Google Sign-In failed', 'error');
+      return { success: false, error: err.message };
+    }
+  };
+
+  // Firebase Token Login (for Phone Auth & External Tokens)
+  const loginWithFirebaseToken = async (idToken, email = '') => {
+    try {
+      const data = await authAPI.firebaseLogin(idToken, email);
+      if (data.success) {
+        authAPI.saveToken(data.token);
+        const u = data.user;
+        setIsLoggedIn(true);
+        setUser(u);
+        setWishlist(u.wishlist || ['flash-3', 'prod-7']);
+        setAddresses(u.addresses || []);
+        setNotifications(u.notifications || []);
+        if (u.appliedCoupon?.code) setAppliedCoupon(u.appliedCoupon);
+        if (u.cart && u.cart.length > 0) {
+          setCart(mapServerCart(u.cart));
+        }
+        const emailNotice = (u.email && !u.email.endsWith('@urbanthread.in')) ? ` (Security alert sent to ${u.email})` : '';
+        showToast(`📱 Mobile verified via Firebase! Welcome, ${u.name}!${emailNotice}`, 'success');
+        return { success: true, user: u };
+      }
+    } catch (err) {
+      console.error('Firebase token login error:', err);
+      showToast(err.message || 'Firebase login failed', 'error');
+      return { success: false, error: err.message };
+    }
   };
 
   const logout = () => {
@@ -768,6 +831,8 @@ export const EcommerceProvider = ({ children }) => {
         login,
         loginWithPhone,
         signup,
+        loginWithGoogle,
+        loginWithFirebaseToken,
         logout,
         updateUserProfile,
         searchQuery,

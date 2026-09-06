@@ -472,3 +472,153 @@
 .dark-theme .quick-demo-btn {
   background: rgba(255, 63, 108, 0.1);
 }
+
+/* Google Firebase Sign-In Button */
+.google-auth-container {
+  margin-bottom: 16px;
+}
+
+.google-signin-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.google-signin-btn:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.google-signin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.google-icon {
+  flex-shrink: 0;
+}
+
+.security-email-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #059669;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.auth-separator {
+  position: relative;
+  text-align: center;
+  margin: 16px 0 14px 0;
+}
+
+.auth-separator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.auth-separator span {
+  position: relative;
+  background: #ffffff;
+  padding: 0 12px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+}
+
+.dark-theme .google-signin-btn {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #334155;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .google-signin-btn:hover {
+  background: #273548;
+  border-color: #475569;
+}
+
+.dark-theme .auth-separator::before {
+  background: #334155;
+}
+
+.dark-theme .auth-separator span {
+  background: #0f172a;
+  color: #64748b;
+}
+
+.dark-theme .security-email-pill {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
+
+/* Firebase Real SMS banner */
+.firebase-sms-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1.5px solid rgba(16, 185, 129, 0.35);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  color: #065f46;
+}
+
+.firebase-sms-banner strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #047857;
+}
+
+.firebase-sms-banner p {
+  margin: 2px 0 0 0;
+  font-size: 0.78rem;
+  color: #065f46;
+}
+
+.dark-theme .firebase-sms-banner {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #a7f3d0;
+}
+
+.dark-theme .firebase-sms-banner strong {
+  color: #34d399;
+}
+
+.dark-theme .firebase-sms-banner p {
+  color: #a7f3d0;
+}
+
+

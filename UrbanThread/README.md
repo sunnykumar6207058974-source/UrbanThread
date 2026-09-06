@@ -24,7 +24,7 @@ cd backend
 npm install
 npm run dev
 ```
-*(Runs at `http://localhost:5000`)*
+*(Runs at `http://localhost:5002`)*
 
 > **Database:** Zero-config embedded MongoDB starts automatically if local MongoDB is not found. To use persistent storage, set `MONGO_URI` in `backend/.env`.
 
