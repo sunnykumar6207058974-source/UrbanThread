@@ -969,3 +969,353 @@
   font-size: 0.88rem;
 }
 
+/* ── Razorpay Test Simulator Modal ────────────────────────────────────────── */
+.rzp-sim-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 35, 64, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 3500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.rzp-sim-modal {
+  background: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(12, 35, 64, 0.45);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.rzp-sim-header {
+  background: #0c2340;
+  color: #ffffff;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rzp-sim-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rzp-sim-logo {
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.rzp-sim-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.rzp-sim-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: #60a5fa;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.rzp-sim-amount-box {
+  text-align: right;
+  margin-left: auto;
+}
+
+.rzp-sim-inr {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #10b981;
+}
+
+.rzp-sim-usd {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.rzp-sim-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.rzp-sim-close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.rzp-sim-tabs {
+  display: flex;
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.rzp-sim-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 12px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.rzp-sim-tab.active {
+  color: #0c2340;
+  background: #ffffff;
+  border-bottom: 2px solid #2563eb;
+}
+
+.rzp-sim-content {
+  padding: 20px;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rzp-sim-intro {
+  font-size: 0.82rem;
+  color: #475569;
+  margin-bottom: 14px;
+}
+
+/* UPI Apps Grid */
+.rzp-upi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.rzp-upi-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.rzp-upi-item:hover,
+.rzp-upi-item.selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.app-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.72rem;
+  color: #ffffff;
+}
+
+.app-dot.gpay { background: #4285f4; }
+.app-dot.phonepe { background: #5f259f; }
+.app-dot.paytm { background: #00b9f1; }
+.app-dot.bhim { background: #00796b; }
+
+.rzp-sim-vpa-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #334155;
+}
+
+.verified-pill {
+  font-size: 0.7rem;
+  background: #dcfce7;
+  color: #15803d;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+/* Virtual Card */
+.rzp-sim-card-preview {
+  background: linear-gradient(135deg, #1e3a8a, #0c2340);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 20px rgba(12, 35, 64, 0.25);
+  margin-bottom: 16px;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #93c5fd;
+  margin-bottom: 14px;
+}
+
+.card-no {
+  font-family: monospace;
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.card-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.card-details span {
+  display: block;
+  font-size: 0.65rem;
+  color: #93c5fd;
+}
+
+/* Netbanking Grid */
+.rzp-banks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.rzp-bank-pill {
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  text-align: center;
+}
+
+.rzp-bank-pill.selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+/* Simulator Actions */
+.rzp-sim-buttons {
+  margin-top: 14px;
+}
+
+.btn-rzp-authorize {
+  width: 100%;
+  background: #00b894;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 184, 148, 0.3);
+  transition: all 0.2s;
+}
+
+.btn-rzp-authorize:hover {
+  background: #00a884;
+  transform: translateY(-1px);
+}
+
+.btn-rzp-failure {
+  width: 100%;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  color: #c53030;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-rzp-failure:hover {
+  background: #fed7d7;
+}
+
+/* Loading & Success States */
+.rzp-sim-loading-state,
+.rzp-sim-success-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.rzp-sim-loading-state h4,
+.rzp-sim-success-state h4 {
+  margin: 14px 0 6px 0;
+  font-size: 1.05rem;
+}
+
+.rzp-sim-loading-state p,
+.rzp-sim-success-state p {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.rzp-sim-footer {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: #64748b;
+}
+

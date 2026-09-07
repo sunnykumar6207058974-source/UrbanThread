@@ -52,6 +52,9 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
     usdToInrRate: 85
   });
   const [orderDetails, setOrderDetails] = useState(null);
+  const [showSimulator, setShowSimulator] = useState(false);
+  const [simStatus, setSimStatus] = useState('idle'); // 'idle' | 'processing' | 'success'
+  const [simMethod, setSimMethod] = useState('upi'); // 'upi' | 'card' | 'netbanking'
 
   useEffect(() => {
     if (isOpen) {
@@ -164,6 +167,29 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
     setIsProcessing(false);
   };
 
+  const handleSimulatePayment = (isSuccess = true) => {
+    if (!isSuccess) {
+      showToast('⚠️ Payment simulation failed: User cancelled or bank declined.', 'error');
+      setShowSimulator(false);
+      setSimStatus('idle');
+      return;
+    }
+
+    setSimStatus('processing');
+    setTimeout(() => {
+      setSimStatus('success');
+      setTimeout(() => {
+        setShowSimulator(false);
+        setSimStatus('idle');
+        completeOrder({
+          paymentMethod: 'razorpay',
+          paymentStatus: 'paid',
+          razorpayPaymentId: `pay_test_${Date.now()}`
+        });
+      }, 500);
+    }, 800);
+  };
+
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
@@ -181,7 +207,21 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
       return;
     }
 
-    // Razorpay Online Gateway Flow
+    // Check if live/registered Razorpay credentials exist
+    const isRegisteredRazorpayKey = Boolean(
+      razorpayConfig.isLive && 
+      razorpayConfig.keyId && 
+      !razorpayConfig.keyId.includes('demo') && 
+      razorpayConfig.keyId.startsWith('rzp_')
+    );
+
+    if (!isRegisteredRazorpayKey) {
+      // Open built-in interactive Razorpay test simulator modal!
+      setShowSimulator(true);
+      return;
+    }
+
+    // Real Razorpay Gateway Flow
     setIsProcessing(true);
     try {
       let orderRes = null;
@@ -195,7 +235,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
         console.warn('Backend payment order creation notice:', err.message);
       }
 
-      const keyId = orderRes?.keyId || razorpayConfig.keyId || 'rzp_test_urbanthread_demo';
+      const keyId = orderRes?.keyId || razorpayConfig.keyId;
       const rzpOrderId = orderRes?.orderId;
 
       if (window.Razorpay) {
@@ -243,22 +283,13 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
         });
         rzp.open();
       } else {
-        // Fallback if Razorpay SDK was blocked by browser
-        completeOrder({
-          paymentMethod: 'razorpay',
-          paymentStatus: 'paid',
-          razorpayPaymentId: `pay_demo_${Date.now()}`
-        });
+        setShowSimulator(true);
+        setIsProcessing(false);
       }
     } catch (err) {
       console.error('Payment checkout error:', err);
       setIsProcessing(false);
-      showToast('Processing test order...', 'info');
-      completeOrder({
-        paymentMethod: 'razorpay',
-        paymentStatus: 'paid',
-        razorpayPaymentId: `pay_fallback_${Date.now()}`
-      });
+      setShowSimulator(true);
     }
   };
 
@@ -696,9 +727,173 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            <button className="btn btn-dark btn-block" onClick={onClose}>
+            <button className="btn btn-dark btn-block" onClick={onClose} style={{ marginTop: '16px' }}>
               Back to Store
             </button>
+          </div>
+        )}
+
+        {/* RAZORPAY TEST GATEWAY SIMULATOR MODAL */}
+        {showSimulator && (
+          <div className="rzp-sim-overlay animate-fade-in" onClick={() => setShowSimulator(false)}>
+            <div className="rzp-sim-modal animate-scale-up" onClick={(e) => e.stopPropagation()}>
+              {/* Header */}
+              <div className="rzp-sim-header">
+                <div className="rzp-sim-brand">
+                  <div className="rzp-sim-logo">
+                    <ShieldCheck size={22} color="#0c2340" />
+                  </div>
+                  <div>
+                    <h4 className="rzp-sim-title">UrbanThread Luxury</h4>
+                    <span className="rzp-sim-badge">🧪 Razorpay Test Gateway</span>
+                  </div>
+                </div>
+                <div className="rzp-sim-amount-box">
+                  <div className="rzp-sim-inr">₹{inrAmount.toLocaleString('en-IN')}</div>
+                  <div className="rzp-sim-usd">(${grandTotal.toFixed(2)})</div>
+                </div>
+                <button type="button" className="rzp-sim-close-btn" onClick={() => setShowSimulator(false)}>
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Sub-nav Tabs */}
+              <div className="rzp-sim-tabs">
+                <button
+                  type="button"
+                  className={`rzp-sim-tab ${simMethod === 'upi' ? 'active' : ''}`}
+                  onClick={() => setSimMethod('upi')}
+                >
+                  ⚡ UPI (GPay / PhonePe)
+                </button>
+                <button
+                  type="button"
+                  className={`rzp-sim-tab ${simMethod === 'card' ? 'active' : ''}`}
+                  onClick={() => setSimMethod('card')}
+                >
+                  💳 Test Card
+                </button>
+                <button
+                  type="button"
+                  className={`rzp-sim-tab ${simMethod === 'netbanking' ? 'active' : ''}`}
+                  onClick={() => setSimMethod('netbanking')}
+                >
+                  🏦 Netbanking
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="rzp-sim-content">
+                {simStatus === 'processing' ? (
+                  <div className="rzp-sim-loading-state animate-fade-in">
+                    <Loader2 size={36} className="animate-spin text-pink" />
+                    <h4>Connecting to Razorpay Banking Network...</h4>
+                    <p>Simulating 256-bit secure bank authorization</p>
+                  </div>
+                ) : simStatus === 'success' ? (
+                  <div className="rzp-sim-success-state animate-scale-up">
+                    <CheckCircle2 size={48} color="#00b894" />
+                    <h4>Payment Verified Successfully!</h4>
+                    <p>Redirecting to Order Confirmation...</p>
+                  </div>
+                ) : (
+                  <>
+                    {simMethod === 'upi' && (
+                      <div className="rzp-sim-pane animate-fade-in">
+                        <p className="rzp-sim-intro">Select your UPI application for instant test authorization:</p>
+                        <div className="rzp-upi-grid">
+                          <div className="rzp-upi-item">
+                            <span className="app-dot gpay">G</span>
+                            <strong>Google Pay</strong>
+                          </div>
+                          <div className="rzp-upi-item">
+                            <span className="app-dot phonepe">Pe</span>
+                            <strong>PhonePe</strong>
+                          </div>
+                          <div className="rzp-upi-item">
+                            <span className="app-dot paytm">Pt</span>
+                            <strong>Paytm UPI</strong>
+                          </div>
+                          <div className="rzp-upi-item">
+                            <span className="app-dot bhim">B</span>
+                            <strong>BHIM UPI</strong>
+                          </div>
+                        </div>
+                        <div className="rzp-sim-vpa-box">
+                          <span>Test VPA: <strong>alex@okhdfcbank</strong></span>
+                          <span className="verified-pill">Ready</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {simMethod === 'card' && (
+                      <div className="rzp-sim-pane animate-fade-in">
+                        <div className="rzp-sim-card-preview">
+                          <div className="card-top">
+                            <span>TEST CARD</span>
+                            <strong>VISA</strong>
+                          </div>
+                          <div className="card-no">4111 •••• •••• 4242</div>
+                          <div className="card-details">
+                            <div>
+                              <span>CARD HOLDER</span>
+                              <strong>{activeAddress.name || 'TEST USER'}</strong>
+                            </div>
+                            <div>
+                              <span>EXPIRES</span>
+                              <strong>12/28</strong>
+                            </div>
+                            <div>
+                              <span>CVV</span>
+                              <strong>123</strong>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {simMethod === 'netbanking' && (
+                      <div className="rzp-sim-pane animate-fade-in">
+                        <p className="rzp-sim-intro">Select your bank for test netbanking authorization:</p>
+                        <div className="rzp-banks-grid">
+                          <div className="rzp-bank-pill selected">HDFC Bank</div>
+                          <div className="rzp-bank-pill">ICICI Bank</div>
+                          <div className="rzp-bank-pill">State Bank of India</div>
+                          <div className="rzp-bank-pill">Axis Bank</div>
+                          <div className="rzp-bank-pill">Kotak Mahindra</div>
+                          <div className="rzp-bank-pill">Punjab National Bank</div>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="rzp-sim-buttons">
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-block btn-lg"
+                        onClick={() => handleSimulatePayment(true)}
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                      >
+                        <Check size={18} /> Authorize Payment (₹{inrAmount.toLocaleString('en-IN')})
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-outline btn-block"
+                        onClick={() => handleSimulatePayment(false)}
+                        style={{ color: '#e74c3c', borderColor: '#fab1a0', marginTop: '8px' }}
+                      >
+                        <X size={16} /> Simulate Bank Decline / Failure
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="rzp-sim-footer">
+                <ShieldCheck size={14} color="#0c2340" />
+                <span>Secured by <strong>Razorpay</strong> • Sandbox Test Environment</span>
+              </div>
+            </div>
           </div>
         )}
       </div>
