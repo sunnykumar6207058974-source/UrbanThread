@@ -56,8 +56,20 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
   const [simStatus, setSimStatus] = useState('idle'); // 'idle' | 'processing' | 'success'
   const [simMethod, setSimMethod] = useState('upi'); // 'upi' | 'card' | 'netbanking'
 
+  const handleCloseModal = () => {
+    setStep('checkout');
+    setShowSimulator(false);
+    setSimStatus('idle');
+    setIsProcessing(false);
+    onClose();
+  };
+
   useEffect(() => {
     if (isOpen) {
+      setStep('checkout');
+      setShowSimulator(false);
+      setSimStatus('idle');
+      setIsProcessing(false);
       if (!window.Razorpay) {
         const script = document.createElement('script');
         script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -294,9 +306,9 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div className="modal-backdrop" onClick={handleCloseModal}>
       <div className="checkout-modal-panel" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
+        <button className="modal-close-btn" onClick={handleCloseModal} aria-label="Close modal">
           <X size={20} />
         </button>
 
@@ -666,7 +678,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
               >
                 <Navigation size={18} /> Live Order Tracking
               </button>
-              <button className="btn btn-outline btn-lg" onClick={onClose}>
+              <button className="btn btn-outline btn-lg" onClick={handleCloseModal}>
                 Continue Shopping
               </button>
             </div>
@@ -727,7 +739,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            <button className="btn btn-dark btn-block" onClick={onClose} style={{ marginTop: '16px' }}>
+            <button className="btn btn-dark btn-block" onClick={handleCloseModal} style={{ marginTop: '16px' }}>
               Back to Store
             </button>
           </div>
