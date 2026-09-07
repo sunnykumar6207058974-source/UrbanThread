@@ -55,6 +55,8 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
   const [showSimulator, setShowSimulator] = useState(false);
   const [simStatus, setSimStatus] = useState('idle'); // 'idle' | 'processing' | 'success'
   const [simMethod, setSimMethod] = useState('upi'); // 'upi' | 'card' | 'netbanking'
+  const [selectedUpiApp, setSelectedUpiApp] = useState('phonepe'); // 'phonepe' | 'gpay' | 'paytm' | 'bhim'
+  const [selectedBank, setSelectedBank] = useState('HDFC Bank');
 
   const handleCloseModal = () => {
     setStep('checkout');
@@ -451,12 +453,113 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
                             <span style={{ fontSize: '0.7rem', background: '#ff3f6c18', color: '#ff3f6c', padding: '2px 8px', borderRadius: '12px', fontWeight: 600 }}>Most Popular</span>
                           </div>
                           <span className="sub">Instant UPI (GPay, PhonePe, Paytm), Cards & Net Banking</span>
-                          <div style={{ display: 'flex', gap: '6px', marginTop: '6px', flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: '0.72rem', background: '#f1f2f6', padding: '2px 6px', borderRadius: '4px', fontWeight: 600 }}>⚡ UPI</span>
-                            <span style={{ fontSize: '0.72rem', background: '#f1f2f6', padding: '2px 6px', borderRadius: '4px' }}>Google Pay</span>
-                            <span style={{ fontSize: '0.72rem', background: '#f1f2f6', padding: '2px 6px', borderRadius: '4px' }}>PhonePe</span>
-                            <span style={{ fontSize: '0.72rem', background: '#f1f2f6', padding: '2px 6px', borderRadius: '4px' }}>Paytm</span>
-                            <span style={{ fontSize: '0.72rem', background: '#f1f2f6', padding: '2px 6px', borderRadius: '4px' }}>Cards</span>
+                          <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setPaymentMethod('razorpay');
+                                setSimMethod('upi');
+                                setSelectedUpiApp('phonepe');
+                              }}
+                              style={{
+                                fontSize: '0.74rem',
+                                background: paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'phonepe' ? '#5f259f' : '#f1f2f6',
+                                color: paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'phonepe' ? '#ffffff' : '#1e293b',
+                                border: paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'phonepe' ? '1.5px solid #5f259f' : '1px solid #cbd5e1',
+                                padding: '3px 8px',
+                                borderRadius: '6px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                transition: 'all 0.15s'
+                              }}
+                            >
+                              📱 PhonePe {paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'phonepe' && <Check size={11} />}
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setPaymentMethod('razorpay');
+                                setSimMethod('upi');
+                                setSelectedUpiApp('gpay');
+                              }}
+                              style={{
+                                fontSize: '0.74rem',
+                                background: paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'gpay' ? '#4285f4' : '#f1f2f6',
+                                color: paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'gpay' ? '#ffffff' : '#1e293b',
+                                border: paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'gpay' ? '1.5px solid #4285f4' : '1px solid #cbd5e1',
+                                padding: '3px 8px',
+                                borderRadius: '6px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                transition: 'all 0.15s'
+                              }}
+                            >
+                              Google Pay {paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'gpay' && <Check size={11} />}
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setPaymentMethod('razorpay');
+                                setSimMethod('upi');
+                                setSelectedUpiApp('paytm');
+                              }}
+                              style={{
+                                fontSize: '0.74rem',
+                                background: paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'paytm' ? '#00b9f1' : '#f1f2f6',
+                                color: paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'paytm' ? '#ffffff' : '#1e293b',
+                                border: paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'paytm' ? '1.5px solid #00b9f1' : '1px solid #cbd5e1',
+                                padding: '3px 8px',
+                                borderRadius: '6px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                transition: 'all 0.15s'
+                              }}
+                            >
+                              Paytm {paymentMethod === 'razorpay' && simMethod === 'upi' && selectedUpiApp === 'paytm' && <Check size={11} />}
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setPaymentMethod('razorpay');
+                                setSimMethod('card');
+                              }}
+                              style={{
+                                fontSize: '0.74rem',
+                                background: paymentMethod === 'razorpay' && simMethod === 'card' ? '#0c2340' : '#f1f2f6',
+                                color: paymentMethod === 'razorpay' && simMethod === 'card' ? '#ffffff' : '#1e293b',
+                                border: '1px solid #cbd5e1',
+                                padding: '3px 8px',
+                                borderRadius: '6px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                transition: 'all 0.15s'
+                              }}
+                            >
+                              💳 Cards {paymentMethod === 'razorpay' && simMethod === 'card' && <Check size={11} />}
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -814,26 +917,56 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
                       <div className="rzp-sim-pane animate-fade-in">
                         <p className="rzp-sim-intro">Select your UPI application for instant test authorization:</p>
                         <div className="rzp-upi-grid">
-                          <div className="rzp-upi-item">
-                            <span className="app-dot gpay">G</span>
-                            <strong>Google Pay</strong>
-                          </div>
-                          <div className="rzp-upi-item">
+                          <div
+                            className={`rzp-upi-item ${selectedUpiApp === 'phonepe' ? 'selected' : ''}`}
+                            onClick={() => setSelectedUpiApp('phonepe')}
+                            style={{ cursor: 'pointer' }}
+                          >
                             <span className="app-dot phonepe">Pe</span>
                             <strong>PhonePe</strong>
+                            {selectedUpiApp === 'phonepe' && <Check size={16} color="#5f259f" style={{ marginLeft: 'auto' }} />}
                           </div>
-                          <div className="rzp-upi-item">
+
+                          <div
+                            className={`rzp-upi-item ${selectedUpiApp === 'gpay' ? 'selected' : ''}`}
+                            onClick={() => setSelectedUpiApp('gpay')}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <span className="app-dot gpay">G</span>
+                            <strong>Google Pay</strong>
+                            {selectedUpiApp === 'gpay' && <Check size={16} color="#4285f4" style={{ marginLeft: 'auto' }} />}
+                          </div>
+
+                          <div
+                            className={`rzp-upi-item ${selectedUpiApp === 'paytm' ? 'selected' : ''}`}
+                            onClick={() => setSelectedUpiApp('paytm')}
+                            style={{ cursor: 'pointer' }}
+                          >
                             <span className="app-dot paytm">Pt</span>
                             <strong>Paytm UPI</strong>
+                            {selectedUpiApp === 'paytm' && <Check size={16} color="#00b9f1" style={{ marginLeft: 'auto' }} />}
                           </div>
-                          <div className="rzp-upi-item">
+
+                          <div
+                            className={`rzp-upi-item ${selectedUpiApp === 'bhim' ? 'selected' : ''}`}
+                            onClick={() => setSelectedUpiApp('bhim')}
+                            style={{ cursor: 'pointer' }}
+                          >
                             <span className="app-dot bhim">B</span>
                             <strong>BHIM UPI</strong>
+                            {selectedUpiApp === 'bhim' && <Check size={16} color="#00796b" style={{ marginLeft: 'auto' }} />}
                           </div>
                         </div>
+
                         <div className="rzp-sim-vpa-box">
-                          <span>Test VPA: <strong>alex@okhdfcbank</strong></span>
-                          <span className="verified-pill">Ready</span>
+                          <span>
+                            Selected App: <strong style={{ color: selectedUpiApp === 'phonepe' ? '#5f259f' : '#2563eb' }}>
+                              {selectedUpiApp === 'phonepe' ? 'PhonePe' : selectedUpiApp === 'gpay' ? 'Google Pay' : selectedUpiApp === 'paytm' ? 'Paytm' : 'BHIM'}
+                            </strong> • Test VPA: <strong>
+                              {selectedUpiApp === 'phonepe' ? 'customer@ybl' : selectedUpiApp === 'gpay' ? 'customer@okhdfcbank' : selectedUpiApp === 'paytm' ? 'customer@paytm' : 'customer@upi'}
+                            </strong>
+                          </span>
+                          <span className="verified-pill">Active</span>
                         </div>
                       </div>
                     )}
@@ -868,12 +1001,16 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
                       <div className="rzp-sim-pane animate-fade-in">
                         <p className="rzp-sim-intro">Select your bank for test netbanking authorization:</p>
                         <div className="rzp-banks-grid">
-                          <div className="rzp-bank-pill selected">HDFC Bank</div>
-                          <div className="rzp-bank-pill">ICICI Bank</div>
-                          <div className="rzp-bank-pill">State Bank of India</div>
-                          <div className="rzp-bank-pill">Axis Bank</div>
-                          <div className="rzp-bank-pill">Kotak Mahindra</div>
-                          <div className="rzp-bank-pill">Punjab National Bank</div>
+                          {['HDFC Bank', 'ICICI Bank', 'State Bank of India', 'Axis Bank', 'Kotak Mahindra', 'Punjab National Bank'].map((b) => (
+                            <div
+                              key={b}
+                              className={`rzp-bank-pill ${selectedBank === b ? 'selected' : ''}`}
+                              onClick={() => setSelectedBank(b)}
+                              style={{ cursor: 'pointer' }}
+                            >
+                              {b}
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -885,7 +1022,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
                         onClick={() => handleSimulatePayment(true)}
                         style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                       >
-                        <Check size={18} /> Authorize Payment (₹{inrAmount.toLocaleString('en-IN')})
+                        <Check size={18} /> Authorize Payment via {simMethod === 'upi' ? (selectedUpiApp === 'phonepe' ? 'PhonePe' : selectedUpiApp === 'gpay' ? 'Google Pay' : selectedUpiApp === 'paytm' ? 'Paytm' : 'UPI') : simMethod === 'card' ? 'Test Card' : selectedBank} (₹{inrAmount.toLocaleString('en-IN')})
                       </button>
                       <button
                         type="button"
