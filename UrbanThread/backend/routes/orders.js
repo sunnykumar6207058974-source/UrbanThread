@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { items, subtotal, discountAmount, couponCode, taxAmount, deliveryCharge,
-            grandTotal, shippingAddress, paymentMethod } = req.body;
+            grandTotal, shippingAddress, paymentMethod, razorpayPaymentId, razorpayOrderId } = req.body;
 
     if (!items || items.length === 0) {
       return res.status(400).json({ success: false, message: 'Order must contain at least one item.' });
@@ -40,6 +40,7 @@ router.post('/', async (req, res) => {
 
     const orderId = `UT-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
     const trackingNumber = `FX-${Math.floor(100000 + Math.random() * 900000)}`;
+    const isCod = paymentMethod === 'cod';
 
     const order = await Order.create({
       orderId,
@@ -52,12 +53,20 @@ router.post('/', async (req, res) => {
       deliveryCharge: deliveryCharge || 0,
       grandTotal,
       shippingAddress,
-      paymentMethod: paymentMethod || 'card',
+      paymentMethod: paymentMethod || 'razorpay',
+      paymentStatus: isCod ? 'pending' : 'paid',
+      razorpayOrderId: razorpayOrderId || null,
+      razorpayPaymentId: razorpayPaymentId || null,
       status: 'confirmed',
       trackingNumber,
       estimatedDelivery: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }),
       timeline: [
-        { status: 'confirmed', message: '✅ Order confirmed and payment received.' },
+        {
+          status: 'confirmed',
+          message: isCod 
+            ? '✅ Order confirmed via Cash on Delivery. Please keep exact cash/UPI ready at doorstep.' 
+            : `✅ Order confirmed and payment received via ${paymentMethod === 'razorpay' ? 'Razorpay Gateway' : (paymentMethod || 'Online Payment')}.`
+        },
         { status: 'processing', message: '📦 Items picked and packaging in progress.' }
       ]
     });

@@ -72,6 +72,7 @@ app.use('/api/users', apiLimiter, require('./routes/users'));
 app.use('/api/coupons', apiLimiter, require('./routes/coupons'));
 app.use('/api/newsletter', apiLimiter, require('./routes/newsletter'));
 app.use('/api/admin', apiLimiter, require('./routes/admin'));
+app.use('/api/payment', apiLimiter, require('./routes/payment'));
 
 // ── 404 Handler ───────────────────────────────────────────────────────────────
 app.use((req, res) => {

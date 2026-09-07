@@ -31,7 +31,11 @@ const orderSchema = new mongoose.Schema({
     city: String,
     phone: String
   },
-  paymentMethod: { type: String, enum: ['card', 'upi', 'wallet', 'cod'], default: 'card' },
+  paymentMethod: { type: String, enum: ['card', 'upi', 'wallet', 'cod', 'razorpay'], default: 'razorpay' },
+  paymentStatus: { type: String, enum: ['pending', 'paid', 'failed'], default: 'paid' },
+  razorpayOrderId: { type: String, default: null },
+  razorpayPaymentId: { type: String, default: null },
+  razorpaySignature: { type: String, default: null },
 
   // Status & Tracking
   status: {

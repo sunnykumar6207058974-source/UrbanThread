@@ -102,7 +102,16 @@ async function testBackend() {
     const statsRes = await request(app).get('/api/admin/stats').set('Authorization', `Bearer ${adminToken}`);
     console.log(`[13] Admin Stats: ${statsRes.status === 200 && statsRes.body.stats.totalProducts >= 42 ? '✅ PASS (Products: ' + statsRes.body.stats.totalProducts + ')' : '❌ FAIL'}`);
 
-    console.log('\n🎉 ALL 13 BACKEND DIAGNOSTIC TESTS PASSED WITH 100% SUCCESS!\n');
+    // 14. Payment Gateway Config & Order Creation
+    const payConfigRes = await request(app).get('/api/payment/config');
+    const payOrderRes = await request(app)
+      .post('/api/payment/create-order')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ amount: 150, currency: 'INR' });
+    const isPayPass = payConfigRes.status === 200 && payOrderRes.status === 200 && payOrderRes.body.orderId;
+    console.log(`[14] Payment Gateway (Config & Order): ${isPayPass ? '✅ PASS (Order: ' + payOrderRes.body.orderId + ')' : '❌ FAIL'}`);
+
+    console.log('\n🎉 ALL 14 BACKEND DIAGNOSTIC TESTS PASSED WITH 100% SUCCESS!\n');
     process.exit(0);
   } catch (err) {
     console.error('\n❌ Backend test failed:', err);

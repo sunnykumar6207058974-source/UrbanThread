@@ -85,6 +85,13 @@ export const ordersAPI = {
   place: (body) => request('/orders', { method: 'POST', body: JSON.stringify(body) })
 };
 
+// ── Payment (Razorpay & Online) ────────────────────────────────────────────────
+export const paymentAPI = {
+  getConfig: () => request('/payment/config'),
+  createOrder: (body) => request('/payment/create-order', { method: 'POST', body: JSON.stringify(body) }),
+  verifyPayment: (body) => request('/payment/verify', { method: 'POST', body: JSON.stringify(body) })
+};
+
 // ── Users ─────────────────────────────────────────────────────────────────────
 export const usersAPI = {
   getProfile: () => request('/users/profile'),

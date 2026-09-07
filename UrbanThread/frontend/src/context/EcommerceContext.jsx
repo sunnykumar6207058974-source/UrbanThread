@@ -738,11 +738,20 @@ export const EcommerceProvider = ({ children }) => {
           name: user?.name || 'Customer',
           street: formattedOrder.shippingAddress
         },
-        paymentMethod: (formattedOrder.paymentMethod || 'card').toLowerCase()
+        paymentMethod: (formattedOrder.paymentMethod || 'razorpay').toLowerCase(),
+        paymentStatus: orderData.paymentStatus || (formattedOrder.paymentMethod === 'COD' ? 'pending' : 'paid'),
+        razorpayOrderId: orderData.razorpayOrderId || null,
+        razorpayPaymentId: orderData.razorpayPaymentId || null
       }).catch(() => {});
     } catch {}
 
-    showToast(`💳 Payment Successful! Order #${orderId} confirmed. Bag cleared & express dispatch initiated.`, 'success');
+    const isCod = (formattedOrder.paymentMethod || '').toUpperCase() === 'COD';
+    showToast(
+      isCod 
+        ? `📦 Order #${orderId} confirmed via Cash on Delivery!` 
+        : `💳 Payment Successful! Order #${orderId} confirmed via ${formattedOrder.paymentMethod}.`,
+      'success'
+    );
     const newNotif = {
       id: Date.now(),
       title: `📦 Order #${orderId} Confirmed!`,
