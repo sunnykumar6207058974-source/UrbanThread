@@ -856,7 +856,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
               <div className="rzp-sim-header">
                 <div className="rzp-sim-brand">
                   <div className="rzp-sim-logo">
-                    <ShieldCheck size={22} color="#0c2340" />
+                    <img src="/logo.png" alt="UrbanThread" className="brand-logo-img" />
                   </div>
                   <div>
                     <h4 className="rzp-sim-title">UrbanThread Luxury</h4>

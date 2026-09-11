@@ -113,8 +113,8 @@ export const Header = ({ onOpenAuth }) => {
 
           {/* Logo */}
           <a href="#" className="brand-logo" onClick={() => setSelectedCategory('All')}>
-            <div className="logo-icon">
-              <Sparkles size={22} color="#ffffff" />
+            <div className="logo-icon brand-logo-badge">
+              <img src="/logo.png" alt="UrbanThread Luxury" className="brand-logo-img" />
             </div>
             <div className="logo-text">
               <span className="brand-name">URBAN<span className="accent-text">THREAD</span></span>

@@ -41,8 +41,8 @@ export const Footer = () => {
         <div className="footer-container">
           <div className="footer-col brand-col">
             <a href="#" className="brand-logo footer-logo">
-              <div className="logo-icon">
-                <Sparkles size={20} color="#ffffff" />
+              <div className="logo-icon brand-logo-badge">
+                <img src="/logo.png" alt="UrbanThread Luxury" className="brand-logo-img" />
               </div>
               <span className="brand-name">URBAN<span className="accent-text">THREAD</span></span>
             </a>
